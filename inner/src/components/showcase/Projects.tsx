@@ -70,14 +70,12 @@ const Projects: React.FC<ProjectsProps> = (props) => {
             <br />
 
             <ProjectEntry
-                title="Blood Bank — Donation Management System"
-                period="Jun 2026"
-                context="SIC Hackathon 2026"
-                domain="Web Application / Healthcare / Data Structures"
-                tags={['Python', 'Streamlit', 'JavaScript', 'HTML', 'CSS', 'Hash Table', 'Priority Queue', 'Stack']}
-                description="A Blood Donation Management System built during the SIC Hackathon 2026. Implements classic data structures — hash tables for O(1) donor indexing, priority queues for urgency-based donor–recipient matching, and stacks for request history management. Features a live web interface deployed on Netlify with real-time donor search and blood group filtering."
-                liveDemo="https://bloodbankjeelrahul.netlify.app"
-                link="https://github.com/Rahul-KrishnaA/SIC-Blood-Donation-Management"
+                title="LexRAG — Retrieval Augmented Generation System"
+                period="Jul 2025 – Present"
+                context="Personal / Academic Project"
+                domain="Natural Language Processing / AI / Search Systems"
+                tags={['Python', 'RAG', 'Streamlit', 'LangChain', 'OpenAI GPT', 'Vector Database', 'Prompt Engineering']}
+                description="AI-driven regulatory compliance analyser using Retrieval-Augmented Generation (RAG) to evaluate laws against organisational policies. Uses vector databases for semantic search and LLMs for contextual analysis and compliance reporting."
             />
 
             <ProjectEntry
@@ -90,12 +88,14 @@ const Projects: React.FC<ProjectsProps> = (props) => {
             />
 
             <ProjectEntry
-                title="LexRAG — Retrieval Augmented Generation System"
-                period="Jul 2025 – Present"
-                context="Personal / Academic Project"
-                domain="Natural Language Processing / AI / Search Systems"
-                tags={['Python', 'RAG', 'Streamlit', 'LangChain', 'OpenAI GPT', 'Vector Database', 'Prompt Engineering']}
-                description="AI-driven regulatory compliance analyser using Retrieval-Augmented Generation (RAG) to evaluate laws against organisational policies. Uses vector databases for semantic search and LLMs for contextual analysis and compliance reporting."
+                title="Blood Bank — Donation Management System"
+                period="Jun 2026"
+                context="SIC Hackathon 2026"
+                domain="Web Application / Healthcare / Data Structures"
+                tags={['Python', 'Streamlit', 'JavaScript', 'HTML', 'CSS', 'Hash Table', 'Priority Queue', 'Stack']}
+                description="A Blood Donation Management System built during the SIC Hackathon 2026. Implements classic data structures — hash tables for O(1) donor indexing, priority queues for urgency-based donor–recipient matching, and stacks for request history management. Features a live web interface deployed on Netlify with real-time donor search and blood group filtering."
+                liveDemo="https://bloodbankjeelrahul.netlify.app"
+                link="https://github.com/Rahul-KrishnaA/SIC-Blood-Donation-Management"
             />
 
             <ProjectEntry
@@ -105,6 +105,7 @@ const Projects: React.FC<ProjectsProps> = (props) => {
                 domain="Artificial Intelligence / FinTech / Machine Learning"
                 tags={['Python', 'OpenAI GPT', 'LangChain', 'NLP', 'Financial Data', 'API Integration', 'Streamlit']}
                 description="An AI-powered personal finance assistant built with Python and Streamlit that helps users manage expenses, set savings goals, and get smart financial insights using natural language input."
+                link="https://github.com/Rahul-KrishnaA/Ai-Finance-Assistant"
             />
 
             <ProjectEntry
@@ -114,6 +115,7 @@ const Projects: React.FC<ProjectsProps> = (props) => {
                 domain="Computer Vision / Deep Learning / Machine Learning"
                 tags={['Python', 'OpenCV', 'TensorFlow', 'Keras', 'CNN', 'NumPy', 'MNIST']}
                 description="A deep learning project that recognises handwritten digits using a Convolutional Neural Network (CNN) trained on the MNIST dataset, with real-time digit drawing and prediction using OpenCV."
+                link="https://github.com/Rahul-KrishnaA/Handwritten-Digit-Recognition-using-CNN-and-OpenCV"
             />
 
             <ProjectEntry
@@ -123,6 +125,7 @@ const Projects: React.FC<ProjectsProps> = (props) => {
                 domain="Computer Vision / Image Processing / Machine Learning"
                 tags={['Python', 'OpenCV', 'Convex Hull Algorithm', 'NumPy', 'Image Processing', 'Folium']}
                 description="A geographic safety visualisation tool that uses Convex Hull geometry to compute and display whether a user-specified location lies within a safe zone formed by real-world GPS coordinates, with interactive mapping via Folium."
+                link="https://github.com/Rahul-KrishnaA/Safe-Zone-Detection-using-Convexhull"
             />
         </div>
     );
