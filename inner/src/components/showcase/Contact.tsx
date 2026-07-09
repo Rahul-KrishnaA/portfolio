@@ -55,7 +55,8 @@ const Contact: React.FC<ContactProps> = (props) => {
         try {
             setIsLoading(true);
             const apiUrl =
-                process.env.REACT_APP_CONTACT_URL || '/api/send-email';
+                process.env.REACT_APP_CONTACT_URL ||
+                'https://rahulkrishna-portfolio.vercel.app/api/send-email';
             const res = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
