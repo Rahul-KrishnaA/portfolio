@@ -49,11 +49,6 @@ const Community: React.FC<CommunityProps> = (props) => {
                         <br />
                         <FileActions filePath="/community/ngo.pdf" />
                     </div>
-                    <div style={styles.certCard}>
-                        <p><b>Poornathrayeesa Orphanage Certificate</b></p>
-                        <br />
-                        <FileActions filePath="/community/orphanage-cert.jpg" />
-                    </div>
                 </div>
             </div>
         </div>

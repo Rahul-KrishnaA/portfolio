@@ -112,9 +112,14 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
         setCurrentPage(closestPage);
     }, [numPages]);
 
+    // Cascade horizontally more than vertically -- a window opened low can
+    // push its bottom edge past the visible desktop, especially once it
+    // grows to match a wide PDF page's height allowance.
+    const verticalStep = Math.round((props.cascadeOffset / 44) * 16);
+
     return (
         <Window
-            top={40 + props.cascadeOffset}
+            top={24 + verticalStep}
             left={80 + props.cascadeOffset}
             width={windowSize.width}
             height={windowSize.height}
@@ -230,7 +235,6 @@ const styles: StyleSheetCSS = {
         minHeight: 0,
         flexDirection: 'column',
         boxSizing: 'border-box',
-        outline: '3px solid red',
     },
     toolbar: {
         width: '100%',
@@ -239,7 +243,6 @@ const styles: StyleSheetCSS = {
         borderBottom: '1px solid #808080',
         flexShrink: 0,
         boxSizing: 'border-box',
-        outline: '3px solid lime',
     },
     toolbarButton: {
         minWidth: 28,
@@ -263,7 +266,6 @@ const styles: StyleSheetCSS = {
         flexDirection: 'column',
         padding: 16,
         boxSizing: 'border-box',
-        outline: '3px solid deepskyblue',
     },
     page: {
         marginBottom: 16,
