@@ -286,7 +286,8 @@ const Window: React.FC<WindowProps> = (props) => {
                         <div style={styles.bottomBar}>
                             <div
                                 style={Object.assign({}, styles.insetBorder, {
-                                    flex: 5,
+                                    flex: 1,
+                                    minWidth: 0,
                                     alignItems: 'center',
                                 })}
                             >
@@ -477,9 +478,11 @@ const styles: StyleSheetCSS = {
         padding: 2,
     },
     bottomResizeContainer: {
-        flex: 2,
+        width: 24,
+        flexShrink: 0,
 
         justifyContent: 'flex-end',
+        alignItems: 'flex-end',
         padding: 0,
         marginLeft: 2,
         cursor: 'nwse-resize',
