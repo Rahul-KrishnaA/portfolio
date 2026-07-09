@@ -2,10 +2,13 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import Window from '../os/Window';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.js',
-    import.meta.url
-).toString();
+// Served as a static file from public/ (not routed through webpack's asset
+// pipeline via `new URL(..., import.meta.url)`) -- that pattern works in the
+// CRA dev server but production's build optimizations mangle the worker
+// script differently, causing the real Worker to fail and pdf.js's "fake
+// worker" fallback (running on the main thread) to hit `require()` calls
+// that don't exist in a browser context ("require is not defined").
+pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
 
 export interface CertificateViewerProps extends WindowAppProps {
     fileUrl: string;
