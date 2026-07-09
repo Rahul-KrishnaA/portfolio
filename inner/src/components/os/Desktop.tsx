@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+﻿import React, { useCallback, useEffect, useState } from 'react';
 import Colors from '../../constants/colors';
 import ShowcaseExplorer from '../applications/ShowcaseExplorer';
 import ShutdownSequence from './ShutdownSequence';
@@ -21,7 +21,7 @@ const APPLICATIONS: {
 } = {
     showcase: {
         key: 'showcase',
-        name: 'My Showcase',
+        name: 'My Details',
         shortcutIcon: 'showcaseIcon',
         component: ShowcaseExplorer,
     },
@@ -68,7 +68,7 @@ const Desktop: React.FC<DesktopProps> = (props) => {
         });
 
         newShortcuts.forEach((shortcut) => {
-            if (shortcut.shortcutName === 'My Showcase') {
+            if (shortcut.shortcutName === 'My Details') {
                 shortcut.onOpen();
             }
         });

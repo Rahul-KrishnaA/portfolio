@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import ResumeDownload from './ResumeDownload';
 
@@ -14,7 +14,7 @@ const About: React.FC<AboutProps> = (props) => {
                 <p>
                     I'm a Computer Science undergraduate at SRM Institute of
                     Science and Technology (Kattankulathur), graduating in 2027
-                    with a CGPA of 9.83/10.
+                    with a CGPA of 9.86/10.
                 </p>
                 <br />
                 <p>

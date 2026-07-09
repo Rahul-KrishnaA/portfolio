@@ -205,7 +205,7 @@ export default class MonitorScreen extends EventEmitter {
         iframe.className = 'jitter';
         iframe.id = 'computer-screen';
         iframe.frameBorder = '0';
-        iframe.title = 'HeffernanOS';
+        iframe.title = 'RahulOS';
 
         // Add iframe to container
         container.appendChild(iframe);

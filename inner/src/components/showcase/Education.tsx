@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import ResumeDownload from './ResumeDownload';
 
 export interface EducationProps {}
@@ -20,14 +20,14 @@ const Education: React.FC<EducationProps> = (props) => {
                         </a>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>B.Tech — Computer Science & Engineering</h3>
+                        <h3>B.Tech â€” Computer Science & Engineering</h3>
                         <b>
-                            <p>2023 – 2027</p>
+                            <p>2023 â€“ 2027</p>
                         </b>
                     </div>
                     <div style={styles.headerRow}>
                         <p>SRM Institute of Science and Technology, Kattankulathur</p>
-                        <b><p>CGPA: 9.83 / 10</p></b>
+                        <b><p>CGPA: 9.86 / 10</p></b>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@ const Education: React.FC<EducationProps> = (props) => {
                 <p>
                     Pursuing a Bachelor of Technology in Computer Science and
                     Engineering at SRM IST Kattankulathur. Maintaining a CGPA
-                    of 9.83/10 with coursework in Machine Learning, Data
+                    of 9.86/10 with coursework in Machine Learning, Data
                     Structures & Algorithms, Database Systems, Computer Vision,
                     and Software Engineering.
                 </p>
@@ -47,7 +47,7 @@ const Education: React.FC<EducationProps> = (props) => {
                         <h1>St Antony's Public School</h1>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>Class XII — CBSE (PCMC)</h3>
+                        <h3>Class XII â€” CBSE (PCMC)</h3>
                         <b>
                             <p>2023</p>
                         </b>
@@ -72,7 +72,7 @@ const Education: React.FC<EducationProps> = (props) => {
                         <h1>Cochin Refineries School</h1>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>Class X — CBSE</h3>
+                        <h3>Class X â€” CBSE</h3>
                         <b>
                             <p>2021</p>
                         </b>

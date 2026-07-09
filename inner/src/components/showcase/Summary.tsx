@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import ResumeDownload from './ResumeDownload';
 
@@ -16,7 +16,7 @@ const Summary: React.FC<SummaryProps> = (props) => {
                     <br />
                     SRM Institute of Science and Technology, Kattankulathur
                     <br />
-                    CGPA: 9.83 / 10 &nbsp;|&nbsp; Graduating 2027
+                    CGPA: 9.86 / 10 &nbsp;|&nbsp; Graduating 2027
                 </p>
                 <br />
                 <p>
@@ -38,33 +38,33 @@ const Summary: React.FC<SummaryProps> = (props) => {
                 <br />
                 <ul>
                     <li>
-                        <Link to="/experience">Experience</Link> — BPCL &
+                        <Link to="/experience">Experience</Link> â€” BPCL &
                         Apollo Tyres internships
                     </li>
                     <li>
-                        <Link to="/projects">Projects</Link> — AI, CV & NLP
+                        <Link to="/projects">Projects</Link> â€” AI, CV & NLP
                         projects
                     </li>
                     <li>
-                        <Link to="/certifications">Certifications</Link> — AWS,
+                        <Link to="/certifications">Certifications</Link> â€” AWS,
                         Oracle, SAP, MongoDB, Alteryx & more
                     </li>
                     <li>
-                        <Link to="/skills">Skills</Link> — Tech stack overview
+                        <Link to="/skills">Skills</Link> â€” Tech stack overview
                     </li>
                     <li>
-                        <Link to="/education">Education</Link> — Academic
+                        <Link to="/education">Education</Link> â€” Academic
                         history
                     </li>
                     <li>
-                        <Link to="/research">Research</Link> — AI/ML
+                        <Link to="/research">Research</Link> â€” AI/ML
                         investigations
                     </li>
                     <li>
-                        <Link to="/community">Community</Link> — Volunteering
+                        <Link to="/community">Community</Link> â€” Volunteering
                     </li>
                     <li>
-                        <Link to="/contact">Contact</Link> — Get in touch
+                        <Link to="/contact">Contact</Link> â€” Get in touch
                     </li>
                 </ul>
             </div>
