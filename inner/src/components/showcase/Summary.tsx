@@ -38,33 +38,33 @@ const Summary: React.FC<SummaryProps> = (props) => {
                 <br />
                 <ul>
                     <li>
-                        <Link to="/experience">Experience</Link> â€” BPCL &
+                        <Link to="/experience">Experience</Link> — BPCL &
                         Apollo Tyres internships
                     </li>
                     <li>
-                        <Link to="/projects">Projects</Link> â€” AI, CV & NLP
+                        <Link to="/projects">Projects</Link> — AI, CV & NLP
                         projects
                     </li>
                     <li>
-                        <Link to="/certifications">Certifications</Link> â€” AWS,
+                        <Link to="/certifications">Certifications</Link> — AWS,
                         Oracle, SAP, MongoDB, Alteryx & more
                     </li>
                     <li>
-                        <Link to="/skills">Skills</Link> â€” Tech stack overview
+                        <Link to="/skills">Skills</Link> — Tech stack overview
                     </li>
                     <li>
-                        <Link to="/education">Education</Link> â€” Academic
+                        <Link to="/education">Education</Link> — Academic
                         history
                     </li>
                     <li>
-                        <Link to="/research">Research</Link> â€” AI/ML
+                        <Link to="/research">Research</Link> — AI/ML
                         investigations
                     </li>
                     <li>
-                        <Link to="/community">Community</Link> â€” Volunteering
+                        <Link to="/community">Community</Link> — Volunteering
                     </li>
                     <li>
-                        <Link to="/contact">Contact</Link> â€” Get in touch
+                        <Link to="/contact">Contact</Link> — Get in touch
                     </li>
                 </ul>
             </div>

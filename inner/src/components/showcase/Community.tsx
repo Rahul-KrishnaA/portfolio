@@ -1,4 +1,5 @@
 import React from 'react';
+import FileActions from './FileActions';
 
 export interface CommunityProps {}
 
@@ -46,28 +47,12 @@ const Community: React.FC<CommunityProps> = (props) => {
                     <div style={styles.certCard}>
                         <p><b>NGO Volunteer Certificate</b></p>
                         <br />
-                        <a
-                            href="/community/ngo.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <button className="site-button">
-                                View Certificate
-                            </button>
-                        </a>
+                        <FileActions filePath="/community/ngo.pdf" />
                     </div>
                     <div style={styles.certCard}>
                         <p><b>Poornathrayeesa Orphanage Certificate</b></p>
                         <br />
-                        <a
-                            href="/community/orphanage-cert.jpg"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <button className="site-button">
-                                View Certificate
-                            </button>
-                        </a>
+                        <FileActions filePath="/community/orphanage-cert.jpg" />
                     </div>
                 </div>
             </div>

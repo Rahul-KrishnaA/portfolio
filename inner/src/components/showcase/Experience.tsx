@@ -1,5 +1,6 @@
 import React from 'react';
 import ResumeDownload from './ResumeDownload';
+import FileActions from './FileActions';
 
 export interface ExperienceProps {}
 
@@ -29,15 +30,10 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                     </div>
                     <div style={styles.headerRow}>
                         <p>Chennai, Tamil Nadu, India</p>
-                        <a
-                            href="/experience/apollo-rd.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <button className="site-button" style={styles.certBtn}>
-                                View Certificate
-                            </button>
-                        </a>
+                        <FileActions
+                            filePath="/experience/apollo-rd.pdf"
+                            buttonStyle={styles.certBtn}
+                        />
                     </div>
                 </div>
             </div>
@@ -104,15 +100,10 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                     </div>
                     <div style={styles.headerRow}>
                         <p>Bharat Petroleum Corporation Ltd. — Kochi Refinery, Kerala</p>
-                        <a
-                            href="/experience/bpcl-internship.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <button className="site-button" style={styles.certBtn}>
-                                View Certificate
-                            </button>
-                        </a>
+                        <FileActions
+                            filePath="/experience/bpcl-internship.pdf"
+                            buttonStyle={styles.certBtn}
+                        />
                     </div>
                 </div>
             </div>

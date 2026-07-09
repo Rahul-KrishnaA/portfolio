@@ -1,4 +1,5 @@
 import React from 'react';
+import FileActions from './FileActions';
 
 export interface ResearchProps {}
 
@@ -37,6 +38,10 @@ const Research: React.FC<ResearchProps> = (props) => {
                         process — submission is in progress and under review.
                     </p>
                 </div>
+                <div style={styles.paperRow}>
+                    <p><b>Paper</b></p>
+                    <FileActions filePath="/certifications/lexrag-paper.pdf" />
+                </div>
             </div>
         </div>
     );
@@ -69,6 +74,10 @@ const styles: StyleSheetCSS = {
         marginRight: 5,
         marginBottom: 5,
         display: 'inline-block',
+    },
+    paperRow: {
+        alignItems: 'center',
+        marginTop: 16,
     },
 };
 

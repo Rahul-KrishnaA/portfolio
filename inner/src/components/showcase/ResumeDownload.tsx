@@ -1,10 +1,12 @@
 import React from 'react';
 import printer from '../../assets/resume/printer.gif';
-import Resume from '../../assets/resume/Rahul_Krishna_A_Resume.pdf';
+import FileActions from './FileActions';
 
 export interface ResumeDownloadProps {
     altText?: string;
 }
+
+const RESUME_PATH = '/resume/Rahul_Krishna_A_Resume.pdf';
 
 const ResumeDownload: React.FC<ResumeDownloadProps> = ({ altText }) => {
     return (
@@ -12,9 +14,7 @@ const ResumeDownload: React.FC<ResumeDownloadProps> = ({ altText }) => {
             <img style={styles.resumePrinter} alt="" src={printer} />
             <div style={styles.resumeContainerText}>
                 <h3>{altText ? altText : 'Looking for my resume?'}</h3>
-                <a rel="noreferrer" target="_blank" href={Resume}>
-                    <p>Click here to download it!</p>
-                </a>
+                <FileActions filePath={RESUME_PATH} />
             </div>
         </div>
     );
