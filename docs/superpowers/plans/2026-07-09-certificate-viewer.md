@@ -13,7 +13,7 @@
 - Codebase has no existing component test suite (`inner/src/**/*.test.*` — none found); verification is manual via `npm start` in a browser, plus `tsc --noEmit` as an automated compile gate per task. Do not introduce a new test framework.
 - All new UI must follow the existing retro-OS visual language: use the `.site-button` CSS class for buttons, `Window` component for chrome, and the pixelated 32×32 icon style.
 - Global CSS rule `div { display: flex }` (`inner/src/App.css:18`) means style objects can use `flexDirection`/`alignItems`/etc. on plain divs without setting `display: flex` explicitly — follow this existing convention.
-- Per user instruction: do **not** commit this feature's code to git until it has been locally verified end-to-end in the browser (Task 7). Do not push to the remote or deploy at all as part of this plan — stop after the local commit and let the user decide on push/deploy.
+- Each task commits its own changes locally as it's completed and reviewed (normal git hygiene, needed so per-task reviews can diff commit ranges). These are local checkpoint commits only, not a "feature is done" signal. Per user instruction: do **not** push to the remote or deploy at all until the full feature has been locally verified end-to-end in the browser (Task 7) — stop after Task 7's local commit and let the user decide on push/deploy.
 - `inner/tsconfig.json` has `skipLibCheck: true` and `module: esnext` already set (required for `react-pdf`'s types and for `import.meta.url` worker setup) — do not change these.
 
 ---
@@ -46,7 +46,11 @@ Expected: no errors (this only checks types; `react-pdf` isn't imported anywhere
 
 - [ ] **Step 3: Commit**
 
-Do NOT commit yet — per the Global Constraints, all commits for this feature happen together in Task 7 after local browser verification. Skip committing here; proceed to Task 2.
+```bash
+cd "D:/Prog/Portfolio"
+git add inner/package.json inner/package-lock.json
+git commit -m "Add react-pdf dependency for in-app certificate viewing"
+```
 
 ---
 
@@ -164,6 +168,14 @@ cd inner
 npx tsc --noEmit -p tsconfig.json
 ```
 Expected: no errors.
+
+- [ ] **Step 4: Commit**
+
+```bash
+cd "D:/Prog/Portfolio"
+git add inner/src/assets/icons/fileIcon.png inner/src/assets/icons/index.ts
+git commit -m "Add generic file-document icon for file-viewer windows"
+```
 
 ---
 
@@ -358,6 +370,14 @@ cd inner
 npx tsc --noEmit -p tsconfig.json
 ```
 Expected: no errors. (Nothing imports this file yet, so this just checks the new file itself is well-typed.)
+
+- [ ] **Step 3: Commit**
+
+```bash
+cd "D:/Prog/Portfolio"
+git add inner/src/contexts/WindowManagerContext.tsx
+git commit -m "Add WindowManagerContext for opening top-level windows from nested pages"
+```
 
 ---
 
@@ -593,7 +613,11 @@ Stop the dev server (Ctrl+C) once confirmed.
 
 - [ ] **Step 4: Commit**
 
-Do NOT commit yet — combined into Task 7 per Global Constraints.
+```bash
+cd "D:/Prog/Portfolio"
+git add inner/src/components/os/Desktop.tsx
+git commit -m "Move Desktop window state into WindowManagerContext"
+```
 
 ---
 
@@ -854,6 +878,14 @@ npx tsc --noEmit -p tsconfig.json
 ```
 Expected: no errors. If TypeScript complains about `import.meta`, double check `inner/tsconfig.json` still has `"module": "esnext"` (it should — this plan doesn't touch that file).
 
+- [ ] **Step 3: Commit**
+
+```bash
+cd "D:/Prog/Portfolio"
+git add inner/src/components/applications/CertificateViewer.tsx
+git commit -m "Add CertificateViewer window app (PDF/image render, zoom, page counter)"
+```
+
 ---
 
 ### Task 6: Wire up `Certifications.tsx`
@@ -1107,11 +1139,19 @@ npx tsc --noEmit -p tsconfig.json
 ```
 Expected: no errors.
 
+- [ ] **Step 3: Commit**
+
+```bash
+cd "D:/Prog/Portfolio"
+git add inner/src/components/showcase/Certifications.tsx
+git commit -m "Wire Certifications page to open certs in-app; add real download button"
+```
+
 ---
 
-### Task 7: End-to-end local verification, then commit
+### Task 7: End-to-end local verification
 
-**Files:** none (verification + commit only)
+**Files:** none (verification only — Tasks 1-6 already committed their own changes locally)
 
 **Interfaces:** none — this task closes out the feature.
 
@@ -1135,32 +1175,21 @@ Navigate to My Details → Certifications and verify each of these (from the des
 - Clicking **Download** on a certificate triggers an actual file download (browser download prompt or file saved to Downloads), not a new tab.
 - No regressions: "My Details" still auto-opens on load, the "Credits" app still opens from its shortcut, and the shutdown sequence (Start → Shut down...) still plays its prank and reboots to an empty desktop.
 
-If any check fails, fix the relevant task's code before proceeding — do not commit a failing state.
+If any check fails, fix the underlying task's code, verify the fix in the browser, and commit the fix to that task's existing local commit history (a small follow-up commit is fine) before proceeding.
 
 - [ ] **Step 3: Stop the dev server**
 
 Press Ctrl+C in the terminal running `npm start`.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 4: Confirm final state**
 
 ```bash
 cd "D:/Prog/Portfolio"
-git add inner/package.json inner/package-lock.json inner/src/assets/icons/index.ts inner/src/assets/icons/fileIcon.png inner/src/contexts/WindowManagerContext.tsx inner/src/components/os/Desktop.tsx inner/src/components/applications/CertificateViewer.tsx inner/src/components/showcase/Certifications.tsx
-git commit -m "$(cat <<'EOF'
-Add in-app certificate viewer with zoom, and a real download button
-
-Certificates now open as their own taskbar-visible windows inside the
-simulated desktop (via a new WindowManagerContext so nested pages can
-reach the window manager) instead of a new browser tab. Viewing
-reuses an already-open window per file instead of duplicating it.
-
-Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
-EOF
-)"
 git status
+git log --oneline main..feature/certificate-viewer
 ```
-Expected: commit succeeds; `git status` shows a clean working tree (aside from anything unrelated already known to be untracked, e.g. `Screenshots/`).
+Expected: clean working tree (aside from anything unrelated already known to be untracked, e.g. `Screenshots/`), and the log shows the 6 feature commits from Tasks 1-6 (plus any follow-up fix commits from Step 2).
 
 - [ ] **Step 5: Stop here**
 
-Per the Global Constraints, do not push to the remote and do not deploy. Report the commit hash back and wait for the user to decide when to push/deploy.
+Per the Global Constraints, do not push to the remote and do not deploy, and do not merge `feature/certificate-viewer` into `main`. Report back and wait for the user to decide when to merge/push/deploy.
