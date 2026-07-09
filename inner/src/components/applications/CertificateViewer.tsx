@@ -173,6 +173,7 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
 const styles: StyleSheetCSS = {
     container: {
         flex: 1,
+        minHeight: 0,
         flexDirection: 'column',
     },
     toolbar: {
@@ -194,6 +195,7 @@ const styles: StyleSheetCSS = {
     },
     content: {
         flex: 1,
+        minHeight: 0,
         overflow: 'auto',
         backgroundColor: '#787878',
         alignItems: 'center',

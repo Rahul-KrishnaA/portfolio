@@ -400,3 +400,11 @@ input:active {
     cursor: pointer;
     color: white;
 }
+
+/* The global `div { display: flex }` rule above makes react-pdf's internal
+   Document wrapper a flex row by default, laying multi-page PDFs out
+   side-by-side instead of stacked top-to-bottom. */
+.react-pdf__Document {
+    flex-direction: column;
+    align-items: center;
+}
