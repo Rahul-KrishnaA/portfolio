@@ -35,6 +35,7 @@ const Button: React.FC<ButtonProps> = ({ icon, text, onClick }) => {
 
     const click = (e: any) => {
         e.preventDefault();
+        e.stopPropagation();
         onClick && onClick();
     };
 

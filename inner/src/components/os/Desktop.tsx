@@ -183,12 +183,12 @@ const styles: StyleSheetCSS = {
     windowWrapper: {
         transformOrigin: 'center bottom',
         transition:
-            'transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease',
+            'transform 0.2s steps(6, jump-end), opacity 0.2s steps(4, jump-end)',
     },
     minimized: {
         pointerEvents: 'none',
         opacity: 0,
-        transform: 'scale(0.85) translateY(64px)',
+        transform: 'scale(0.06) translateY(70vh)',
     },
 };
 
