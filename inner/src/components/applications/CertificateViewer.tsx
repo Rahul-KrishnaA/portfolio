@@ -117,7 +117,12 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
                         Reset
                     </button>
                 </div>
-                <div style={styles.content} ref={contentRef} onScroll={onScroll}>
+                <div
+                    className="file-viewer-scroll"
+                    style={styles.content}
+                    ref={contentRef}
+                    onScroll={onScroll}
+                >
                     {loadError ? (
                         <div style={styles.centered}>
                             <p>Couldn't load this file.</p>

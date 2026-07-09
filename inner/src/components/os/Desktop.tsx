@@ -121,6 +121,7 @@ const DesktopInner: React.FC = () => {
                         key={`win-${key}`}
                         style={Object.assign(
                             {},
+                            styles.windowWrapper,
                             { zIndex: windows[key].zIndex },
                             windows[key].minimized && styles.minimized
                         )}
@@ -179,9 +180,15 @@ const styles: StyleSheetCSS = {
         top: 16,
         left: 6,
     },
+    windowWrapper: {
+        transformOrigin: 'center bottom',
+        transition:
+            'transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease',
+    },
     minimized: {
         pointerEvents: 'none',
         opacity: 0,
+        transform: 'scale(0.85) translateY(64px)',
     },
 };
 

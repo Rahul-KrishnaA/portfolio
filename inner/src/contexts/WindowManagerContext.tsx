@@ -1,9 +1,4 @@
-import React, {
-    createContext,
-    useCallback,
-    useContext,
-    useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 import { IconName } from '../assets/icons';
 
 export interface WindowManagerContextValue {
@@ -25,17 +20,17 @@ const WindowManagerContext = createContext<WindowManagerContextValue | null>(
     null
 );
 
+const getHighestZIndex = (windows: DesktopWindows): number => {
+    let highestZIndex = 0;
+    Object.keys(windows).forEach((key) => {
+        const w = windows[key];
+        if (w && w.zIndex > highestZIndex) highestZIndex = w.zIndex;
+    });
+    return highestZIndex;
+};
+
 export const WindowManagerProvider: React.FC = ({ children }) => {
     const [windows, setWindows] = useState<DesktopWindows>({});
-
-    const getHighestZIndex = useCallback((): number => {
-        let highestZIndex = 0;
-        Object.keys(windows).forEach((key) => {
-            const w = windows[key];
-            if (w && w.zIndex > highestZIndex) highestZIndex = w.zIndex;
-        });
-        return highestZIndex;
-    }, [windows]);
 
     const closeWindow = useCallback((key: string) => {
         setTimeout(() => {
@@ -50,47 +45,45 @@ export const WindowManagerProvider: React.FC = ({ children }) => {
     const minimizeWindow = useCallback((key: string) => {
         setWindows((prevWindows) => {
             if (!prevWindows[key]) return prevWindows;
-            const newWindows = { ...prevWindows };
-            newWindows[key] = { ...newWindows[key], minimized: true };
-            return newWindows;
+            return {
+                ...prevWindows,
+                [key]: { ...prevWindows[key], minimized: true },
+            };
         });
     }, []);
 
-    const toggleMinimize = useCallback(
-        (key: string) => {
-            const newWindows = { ...windows };
-            if (!newWindows[key]) return;
-            const highestIndex = getHighestZIndex();
-            let minimized = newWindows[key].minimized;
-            if (minimized || newWindows[key].zIndex === highestIndex) {
+    const toggleMinimize = useCallback((key: string) => {
+        setWindows((prevWindows) => {
+            if (!prevWindows[key]) return prevWindows;
+            const highestIndex = getHighestZIndex(prevWindows);
+            let minimized = prevWindows[key].minimized;
+            if (minimized || prevWindows[key].zIndex === highestIndex) {
                 minimized = !minimized;
             }
-            newWindows[key] = {
-                ...newWindows[key],
-                minimized,
-                zIndex: getHighestZIndex() + 1,
+            return {
+                ...prevWindows,
+                [key]: {
+                    ...prevWindows[key],
+                    minimized,
+                    zIndex: highestIndex + 1,
+                },
             };
-            setWindows(newWindows);
-        },
-        [windows, getHighestZIndex]
-    );
+        });
+    }, []);
 
-    const focusWindow = useCallback(
-        (key: string) => {
-            setWindows((prevWindows) => {
-                if (!prevWindows[key]) return prevWindows;
-                return {
-                    ...prevWindows,
-                    [key]: {
-                        ...prevWindows[key],
-                        zIndex: getHighestZIndex() + 1,
-                        minimized: false,
-                    },
-                };
-            });
-        },
-        [getHighestZIndex]
-    );
+    const focusWindow = useCallback((key: string) => {
+        setWindows((prevWindows) => {
+            if (!prevWindows[key]) return prevWindows;
+            return {
+                ...prevWindows,
+                [key]: {
+                    ...prevWindows[key],
+                    zIndex: getHighestZIndex(prevWindows) + 1,
+                    minimized: false,
+                },
+            };
+        });
+    }, []);
 
     const openWindow = useCallback(
         (key: string, name: string, icon: IconName, element: JSX.Element) => {
@@ -100,7 +93,7 @@ export const WindowManagerProvider: React.FC = ({ children }) => {
                         ...prevWindows,
                         [key]: {
                             ...prevWindows[key],
-                            zIndex: getHighestZIndex() + 1,
+                            zIndex: getHighestZIndex(prevWindows) + 1,
                             minimized: false,
                         },
                     };
@@ -108,7 +101,7 @@ export const WindowManagerProvider: React.FC = ({ children }) => {
                 return {
                     ...prevWindows,
                     [key]: {
-                        zIndex: getHighestZIndex() + 1,
+                        zIndex: getHighestZIndex(prevWindows) + 1,
                         minimized: false,
                         component: element,
                         name,
@@ -117,7 +110,7 @@ export const WindowManagerProvider: React.FC = ({ children }) => {
                 };
             });
         },
-        [getHighestZIndex]
+        []
     );
 
     const resetWindows = useCallback(() => {
