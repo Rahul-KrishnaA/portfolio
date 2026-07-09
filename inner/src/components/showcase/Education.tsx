@@ -11,19 +11,13 @@ const Education: React.FC<EducationProps> = (props) => {
                 <div style={styles.header}>
                     <div style={styles.headerRow}>
                         <h1>SRM IST</h1>
-                        <a
-                            rel="noreferrer"
-                            target="_blank"
-                            href="https://www.srmist.edu.in/"
-                        >
+                        <a rel="noreferrer" target="_blank" href="https://www.srmist.edu.in/">
                             <h4>www.srmist.edu.in</h4>
                         </a>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>B.Tech â€” Computer Science & Engineering</h3>
-                        <b>
-                            <p>2023 â€“ 2027</p>
-                        </b>
+                        <h3>B.Tech - Computer Science &amp; Engineering</h3>
+                        <b><p>2023 - 2027</p></b>
                     </div>
                     <div style={styles.headerRow}>
                         <p>SRM Institute of Science and Technology, Kattankulathur</p>
@@ -36,7 +30,7 @@ const Education: React.FC<EducationProps> = (props) => {
                     Pursuing a Bachelor of Technology in Computer Science and
                     Engineering at SRM IST Kattankulathur. Maintaining a CGPA
                     of 9.86/10 with coursework in Machine Learning, Data
-                    Structures & Algorithms, Database Systems, Computer Vision,
+                    Structures &amp; Algorithms, Database Systems, Computer Vision,
                     and Software Engineering.
                 </p>
             </div>
@@ -45,12 +39,13 @@ const Education: React.FC<EducationProps> = (props) => {
                 <div style={styles.header}>
                     <div style={styles.headerRow}>
                         <h1>St Antony's Public School</h1>
+                        <a rel="noreferrer" target="_blank" href="https://www.saps.ac.in">
+                            <h4>www.saps.ac.in</h4>
+                        </a>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>Class XII â€” CBSE (PCMC)</h3>
-                        <b>
-                            <p>2023</p>
-                        </b>
+                        <h3>Class XII - CBSE (PCMC)</h3>
+                        <b><p>2023</p></b>
                     </div>
                     <div style={styles.headerRow}>
                         <p>Kanjirapally, Kottayam, Kerala</p>
@@ -70,12 +65,13 @@ const Education: React.FC<EducationProps> = (props) => {
                 <div style={styles.header}>
                     <div style={styles.headerRow}>
                         <h1>Cochin Refineries School</h1>
+                        <a rel="noreferrer" target="_blank" href="https://cochinrefineriesschool.ac.in">
+                            <h4>cochinrefineriesschool.ac.in</h4>
+                        </a>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>Class X â€” CBSE</h3>
-                        <b>
-                            <p>2021</p>
-                        </b>
+                        <h3>Class X - CBSE</h3>
+                        <b><p>2021</p></b>
                     </div>
                     <div style={styles.headerRow}>
                         <p>Ambalamugal, Ernakulam, Kerala</p>
