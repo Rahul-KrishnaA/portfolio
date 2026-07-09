@@ -374,6 +374,7 @@ const styles: StyleSheetCSS = {
     window: {
         backgroundColor: Colors.lightGray,
         position: 'absolute',
+        outline: '3px solid gold',
     },
     dragHitbox: {
         position: 'absolute',
@@ -406,6 +407,7 @@ const styles: StyleSheetCSS = {
         bottom: -20,
         right: -20,
         cursor: 'nwse-resize',
+        outline: '3px solid hotpink',
     },
     topBar: {
         backgroundColor: Colors.blue,
@@ -454,6 +456,7 @@ const styles: StyleSheetCSS = {
         flexShrink: 1,
         width: '100%',
         height: 20,
+        outline: '3px solid purple',
     },
     bottomSpacer: {
         width: 16,
@@ -471,6 +474,7 @@ const styles: StyleSheetCSS = {
         justifyContent: 'flex-end',
         padding: 0,
         marginLeft: 2,
+        outline: '3px solid cyan',
     },
     windowTopButtons: {
         // zIndex: 10000,
