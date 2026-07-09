@@ -421,6 +421,8 @@ const styles: StyleSheetCSS = {
         borderTopColor: colors.darkGray,
         borderLeftColor: colors.darkGray,
         flexGrow: 1,
+        width: '100%',
+        boxSizing: 'border-box',
 
         marginTop: 8,
         marginBottom: 8,
@@ -431,10 +433,14 @@ const styles: StyleSheetCSS = {
         borderTopColor: colors.black,
         borderLeftColor: colors.black,
         flex: 1,
+        width: '100%',
+        boxSizing: 'border-box',
         overflow: 'hidden',
     },
     content: {
         flex: 1,
+        width: '100%',
+        boxSizing: 'border-box',
 
         position: 'relative',
         // overflow: 'scroll',

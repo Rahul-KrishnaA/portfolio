@@ -178,14 +178,19 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
 const styles: StyleSheetCSS = {
     container: {
         flex: 1,
+        width: '100%',
+        minWidth: 0,
         minHeight: 0,
         flexDirection: 'column',
+        boxSizing: 'border-box',
     },
     toolbar: {
+        width: '100%',
         alignItems: 'center',
         padding: 6,
         borderBottom: '1px solid #808080',
         flexShrink: 0,
+        boxSizing: 'border-box',
     },
     toolbarButton: {
         minWidth: 28,
@@ -200,12 +205,15 @@ const styles: StyleSheetCSS = {
     },
     content: {
         flex: 1,
+        width: '100%',
+        minWidth: 0,
         minHeight: 0,
         overflow: 'auto',
         backgroundColor: '#787878',
         alignItems: 'center',
         flexDirection: 'column',
         padding: 16,
+        boxSizing: 'border-box',
     },
     page: {
         marginBottom: 16,
