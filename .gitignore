@@ -1,0 +1,8 @@
+outer/node_modules
+outer/public
+outer/package-lock.json
+inner/node_modules
+inner/build
+inner/package-lock.json
+.DS_Store
+*.psd
