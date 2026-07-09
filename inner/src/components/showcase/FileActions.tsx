@@ -30,7 +30,7 @@ const FileActions: React.FC<FileActionsProps> = ({
             return;
         }
         const fileName = getFileName(filePath);
-        const cascadeOffset = (Object.keys(windows).length % 6) * 24;
+        const cascadeOffset = (Object.keys(windows).length % 5) * 44;
         openWindow(
             filePath,
             fileName,

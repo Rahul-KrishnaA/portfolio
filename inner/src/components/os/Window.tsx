@@ -427,6 +427,7 @@ const styles: StyleSheetCSS = {
         marginTop: 8,
         marginBottom: 8,
         overflow: 'hidden',
+        outline: '3px solid orange',
     },
     contentInner: {
         border: `1px solid ${Colors.lightGray}`,
@@ -436,6 +437,7 @@ const styles: StyleSheetCSS = {
         width: '100%',
         boxSizing: 'border-box',
         overflow: 'hidden',
+        outline: '3px solid magenta',
     },
     content: {
         flex: 1,
@@ -446,6 +448,7 @@ const styles: StyleSheetCSS = {
         // overflow: 'scroll',
         overflowX: 'hidden',
         backgroundColor: Colors.white,
+        outline: '3px solid yellow',
     },
     bottomBar: {
         flexShrink: 1,
