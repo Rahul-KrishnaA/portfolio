@@ -11,6 +11,7 @@ interface ProjectEntryProps {
     domain: string;
     description: string;
     link?: string;
+    liveDemo?: string;
 }
 
 const ProjectEntry: React.FC<ProjectEntryProps> = ({
@@ -21,6 +22,7 @@ const ProjectEntry: React.FC<ProjectEntryProps> = ({
     domain,
     description,
     link,
+    liveDemo,
 }) => (
     <div style={styles.entry}>
         <div style={styles.headerRow}>
@@ -29,11 +31,18 @@ const ProjectEntry: React.FC<ProjectEntryProps> = ({
         </div>
         <div style={styles.subRow}>
             <p style={styles.context}>{context}</p>
-            {link && (
-                <a href={link} target="_blank" rel="noreferrer">
-                    <h4>GitHub</h4>
-                </a>
-            )}
+            <div style={styles.links}>
+                {liveDemo && (
+                    <a href={liveDemo} target="_blank" rel="noreferrer" style={styles.linkItem}>
+                        <h4>Live Demo</h4>
+                    </a>
+                )}
+                {link && (
+                    <a href={link} target="_blank" rel="noreferrer" style={styles.linkItem}>
+                        <h4>GitHub</h4>
+                    </a>
+                )}
+            </div>
         </div>
         <p style={styles.domain}><i>{domain}</i></p>
         <div style={styles.tagRow}>
@@ -59,6 +68,17 @@ const Projects: React.FC<ProjectsProps> = (props) => {
                 vision, and finance.
             </p>
             <br />
+
+            <ProjectEntry
+                title="Blood Bank — Donation Management System"
+                period="Jun 2026"
+                context="SIC Hackathon 2026"
+                domain="Web Application / Healthcare / Data Structures"
+                tags={['Python', 'Streamlit', 'JavaScript', 'HTML', 'CSS', 'Hash Table', 'Priority Queue', 'Stack']}
+                description="A Blood Donation Management System built during the SIC Hackathon 2026. Implements classic data structures — hash tables for O(1) donor indexing, priority queues for urgency-based donor–recipient matching, and stacks for request history management. Features a live web interface deployed on Netlify with real-time donor search and blood group filtering."
+                liveDemo="https://bloodbankjeelrahul.netlify.app"
+                link="https://github.com/Rahul-KrishnaA/SIC-Blood-Donation-Management"
+            />
 
             <ProjectEntry
                 title="Superimposition of Cut-Section with Tire Profile @ Standard Rim (IP-Phase 1)"
@@ -126,6 +146,14 @@ const styles: StyleSheetCSS = {
     },
     context: {
         color: '#333',
+    },
+    links: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 16,
+    },
+    linkItem: {
+        marginLeft: 8,
     },
     domain: {
         color: '#555',
