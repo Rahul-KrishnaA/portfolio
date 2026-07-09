@@ -18,13 +18,43 @@ const ZOOM_MIN = 0.5;
 const ZOOM_MAX = 3;
 const ZOOM_STEP = 0.25;
 
+const DEFAULT_WIDTH = 500;
+const DEFAULT_HEIGHT = 600;
+const CHROME_WIDTH = 96; // content padding (16 * 2) + window borders/padding
+const MIN_WINDOW_WIDTH = 520;
+const MIN_WINDOW_HEIGHT = 400;
+const VIEWPORT_MARGIN = 120;
+
 const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
     const [zoom, setZoom] = useState(1);
     const [numPages, setNumPages] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [loadError, setLoadError] = useState(false);
+    const [windowSize, setWindowSize] = useState({
+        width: DEFAULT_WIDTH,
+        height: DEFAULT_HEIGHT,
+    });
     const contentRef = useRef<HTMLDivElement>(null);
     const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const sizeAppliedRef = useRef(false);
+
+    const applyContentWidth = useCallback((naturalWidth: number) => {
+        if (sizeAppliedRef.current) return;
+        sizeAppliedRef.current = true;
+        const desiredWidth = Math.round(naturalWidth + CHROME_WIDTH);
+        const maxWidth = window.innerWidth - VIEWPORT_MARGIN;
+        const maxHeight = window.innerHeight - VIEWPORT_MARGIN;
+        setWindowSize({
+            width: Math.max(
+                MIN_WINDOW_WIDTH,
+                Math.min(desiredWidth, maxWidth)
+            ),
+            height: Math.max(
+                MIN_WINDOW_HEIGHT,
+                Math.min(DEFAULT_HEIGHT, maxHeight)
+            ),
+        });
+    }, []);
 
     const onDocumentLoadSuccess = useCallback(
         ({ numPages }: { numPages: number }) => {
@@ -32,6 +62,20 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
             pageRefs.current = new Array(numPages).fill(null);
         },
         []
+    );
+
+    const onFirstPageLoadSuccess = useCallback(
+        (page: { originalWidth: number }) => {
+            applyContentWidth(page.originalWidth);
+        },
+        [applyContentWidth]
+    );
+
+    const onImageLoad = useCallback(
+        (event: React.SyntheticEvent<HTMLImageElement>) => {
+            applyContentWidth(event.currentTarget.naturalWidth);
+        },
+        [applyContentWidth]
     );
 
     const onDocumentLoadError = useCallback(() => {
@@ -68,15 +112,12 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
         setCurrentPage(closestPage);
     }, [numPages]);
 
-    const width = 500;
-    const height = 600;
-
     return (
         <Window
             top={40 + props.cascadeOffset}
             left={80 + props.cascadeOffset}
-            width={width}
-            height={height}
+            width={windowSize.width}
+            height={windowSize.height}
             windowTitle={props.fileName}
             windowBarIcon="fileIcon"
             closeWindow={props.onClose}
@@ -152,6 +193,11 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
                                             scale={zoom}
                                             renderTextLayer={false}
                                             renderAnnotationLayer={false}
+                                            onLoadSuccess={
+                                                index === 0
+                                                    ? onFirstPageLoadSuccess
+                                                    : undefined
+                                            }
                                         />
                                     </div>
                                 ))}
@@ -165,6 +211,7 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
                                     ...styles.image,
                                     transform: `scale(${zoom})`,
                                 }}
+                                onLoad={onImageLoad}
                                 onError={() => setLoadError(true)}
                             />
                         </div>
@@ -183,6 +230,7 @@ const styles: StyleSheetCSS = {
         minHeight: 0,
         flexDirection: 'column',
         boxSizing: 'border-box',
+        outline: '3px solid red',
     },
     toolbar: {
         width: '100%',
@@ -191,6 +239,7 @@ const styles: StyleSheetCSS = {
         borderBottom: '1px solid #808080',
         flexShrink: 0,
         boxSizing: 'border-box',
+        outline: '3px solid lime',
     },
     toolbarButton: {
         minWidth: 28,
@@ -214,6 +263,7 @@ const styles: StyleSheetCSS = {
         flexDirection: 'column',
         padding: 16,
         boxSizing: 'border-box',
+        outline: '3px solid deepskyblue',
     },
     page: {
         marginBottom: 16,
