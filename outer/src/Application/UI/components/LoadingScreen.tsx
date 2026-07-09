@@ -195,7 +195,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             <p>
                                 All Content Loaded, launching{' '}
                                 <b style={styles.green}>
-                                    'Rahul Krishna A Portfolio Showcase'
+                                    'Rahul Krishna A - Portfolio'
                                 </b>{' '}
                                 V1.0
                             </p>
@@ -227,7 +227,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     <p>But do enjoy what I have done so far :)</p>
                     <div style={styles.spacer} />
                     <div style={styles.spacer} /> */}
-                    <p>Rahul Krishna A Portfolio Showcase 2025</p>
+                    <p>Rahul Krishna A - Portfolio</p>
                     {mobileWarning && (
                         <>
                             <br />

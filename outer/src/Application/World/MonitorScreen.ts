@@ -184,7 +184,7 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // PROD — replace this URL with your inner site's Vercel deployment URL before deploying
-        const INNER_SITE_URL = 'https://inner-gold.vercel.app/';
+        const INNER_SITE_URL = 'https://rahulportfolio-inner.vercel.app/';
         iframe.src = INNER_SITE_URL;
         /**
          * Use dev server is query params are present
