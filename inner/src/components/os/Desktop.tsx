@@ -6,6 +6,10 @@ import Toolbar from './Toolbar';
 import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
 import { IconName } from '../../assets/icons';
 import Credits from '../applications/Credits';
+import {
+    WindowManagerProvider,
+    useWindowManager,
+} from '../../contexts/WindowManagerContext';
 
 export interface DesktopProps {}
 
@@ -33,11 +37,32 @@ const APPLICATIONS: {
     },
 };
 
-const Desktop: React.FC<DesktopProps> = (props) => {
-    const [windows, setWindows] = useState<DesktopWindows>({});
+const Desktop: React.FC<DesktopProps> = () => {
+    return (
+        <WindowManagerProvider>
+            <DesktopInner />
+        </WindowManagerProvider>
+    );
+};
+
+const DesktopInner: React.FC = () => {
+    const {
+        windows,
+        openWindow,
+        focusWindow,
+        closeWindow,
+        minimizeWindow,
+        toggleMinimize,
+        resetWindows,
+    } = useWindowManager();
+
     const [shortcuts, setShortcuts] = useState<DesktopShortcutProps[]>([]);
     const [shutdown, setShutdown] = useState(false);
     const [numShutdowns, setNumShutdowns] = useState(1);
+
+    const rebootDesktop = useCallback(() => {
+        resetWindows();
+    }, [resetWindows]);
 
     useEffect(() => {
         if (shutdown === true) {
@@ -54,12 +79,14 @@ const Desktop: React.FC<DesktopProps> = (props) => {
                 shortcutName: app.name,
                 icon: app.shortcutIcon,
                 onOpen: () => {
-                    addWindow(
+                    openWindow(
                         app.key,
+                        app.name,
+                        app.shortcutIcon,
                         <app.component
-                            onInteract={() => onWindowInteract(app.key)}
+                            onInteract={() => focusWindow(app.key)}
                             onMinimize={() => minimizeWindow(app.key)}
-                            onClose={() => removeWindow(app.key)}
+                            onClose={() => closeWindow(app.key)}
                             key={app.key}
                         />
                     );
@@ -77,91 +104,12 @@ const Desktop: React.FC<DesktopProps> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const rebootDesktop = useCallback(() => {
-        setWindows({});
-    }, []);
-
-    const removeWindow = useCallback((key: string) => {
-        setTimeout(() => {
-            setWindows((prevWindows) => {
-                const newWindows = { ...prevWindows };
-                delete newWindows[key];
-                return newWindows;
-            });
-        }, 100);
-    }, []);
-
-    const minimizeWindow = useCallback((key: string) => {
-        setWindows((prevWindows) => {
-            const newWindows = { ...prevWindows };
-            newWindows[key].minimized = true;
-            return newWindows;
-        });
-    }, []);
-
-    const getHighestZIndex = useCallback((): number => {
-        let highestZIndex = 0;
-        Object.keys(windows).forEach((key) => {
-            const window = windows[key];
-            if (window) {
-                if (window.zIndex > highestZIndex)
-                    highestZIndex = window.zIndex;
-            }
-        });
-        return highestZIndex;
-    }, [windows]);
-
-    const toggleMinimize = useCallback(
-        (key: string) => {
-            const newWindows = { ...windows };
-            const highestIndex = getHighestZIndex();
-            if (
-                newWindows[key].minimized ||
-                newWindows[key].zIndex === highestIndex
-            ) {
-                newWindows[key].minimized = !newWindows[key].minimized;
-            }
-            newWindows[key].zIndex = getHighestZIndex() + 1;
-            setWindows(newWindows);
-        },
-        [windows, getHighestZIndex]
-    );
-
-    const onWindowInteract = useCallback(
-        (key: string) => {
-            setWindows((prevWindows) => ({
-                ...prevWindows,
-                [key]: {
-                    ...prevWindows[key],
-                    zIndex: 1 + getHighestZIndex(),
-                },
-            }));
-        },
-        [setWindows, getHighestZIndex]
-    );
-
     const startShutdown = useCallback(() => {
         setTimeout(() => {
             setShutdown(true);
             setNumShutdowns(numShutdowns + 1);
         }, 600);
     }, [numShutdowns]);
-
-    const addWindow = useCallback(
-        (key: string, element: JSX.Element) => {
-            setWindows((prevState) => ({
-                ...prevState,
-                [key]: {
-                    zIndex: getHighestZIndex() + 1,
-                    minimized: false,
-                    component: element,
-                    name: APPLICATIONS[key].name,
-                    icon: APPLICATIONS[key].shortcutIcon,
-                },
-            }));
-        },
-        [getHighestZIndex]
-    );
 
     return !shutdown ? (
         <div style={styles.desktop}>
@@ -179,8 +127,8 @@ const Desktop: React.FC<DesktopProps> = (props) => {
                     >
                         {React.cloneElement(element, {
                             key,
-                            onInteract: () => onWindowInteract(key),
-                            onClose: () => removeWindow(key),
+                            onInteract: () => focusWindow(key),
+                            onClose: () => closeWindow(key),
                         })}
                     </div>
                 );
