@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import Window from '../os/Window';
 import { useInterval } from 'usehooks-ts';
 import { motion } from 'framer-motion';
@@ -71,7 +71,7 @@ const Credits: React.FC<CreditsProps> = (props) => {
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            bottomLeftText={'© Copyright 2025 Rahul Krishna A'}
+            bottomLeftText={'Â© Copyright 2025 Rahul Krishna A'}
         >
             <div
                 onMouseDown={nextSlide}
