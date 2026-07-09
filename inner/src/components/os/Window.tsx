@@ -275,10 +275,6 @@ const Window: React.FC<WindowProps> = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div
-                            onMouseDown={startResize}
-                            style={styles.resizeHitbox}
-                        ></div>
                         <div style={styles.bottomBar}>
                             <div
                                 style={Object.assign({}, styles.insetBorder, {
@@ -311,6 +307,7 @@ const Window: React.FC<WindowProps> = (props) => {
                                 )}
                             />
                             <div
+                                onMouseDown={startResize}
                                 style={Object.assign(
                                     {},
                                     styles.insetBorder,
@@ -411,14 +408,6 @@ const styles: StyleSheetCSS = {
 
         flexDirection: 'column',
     },
-    resizeHitbox: {
-        position: 'absolute',
-        width: 24,
-        height: 24,
-        bottom: -8,
-        right: -8,
-        cursor: 'nwse-resize',
-    },
     topBar: {
         backgroundColor: Colors.blue,
         width: '100%',
@@ -480,6 +469,7 @@ const styles: StyleSheetCSS = {
         justifyContent: 'flex-end',
         padding: 0,
         marginLeft: 2,
+        cursor: 'nwse-resize',
     },
     windowTopButtons: {
         // zIndex: 10000,
