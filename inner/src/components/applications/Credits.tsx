@@ -29,7 +29,6 @@ const CREDITS = [
     {
         title: 'Inspiration',
         rows: [
-            ['Henry Heffernan', 'Original Portfolio'],
             ['Bruno Simon', 'Jesse Zhou'],
             ['Pink Yellow', 'Vivek Patel'],
         ],

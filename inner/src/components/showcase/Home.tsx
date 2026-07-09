@@ -16,7 +16,7 @@ const Home: React.FC<HomeProps> = (props) => {
             <div style={styles.header}>
                 <h1 style={styles.name}>Rahul Krishna A</h1>
                 <h2>Computer Science Undergraduate</h2>
-                <h3 style={styles.subtitle}>SRM IST Â· CGPA 9.86/10 Â· Class of 2027</h3>
+                <h3 style={styles.subtitle}>CGPA 9.86/10 &nbsp;|&nbsp; Class of 2027</h3>
             </div>
             <div style={styles.buttons}>
                 <Link containerStyle={styles.link} to="summary" text="SUMMARY" />
