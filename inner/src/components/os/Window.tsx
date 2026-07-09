@@ -67,9 +67,15 @@ const Window: React.FC<WindowProps> = (props) => {
         window.addEventListener('mouseup', stopResize, false);
     };
 
+    const pendingSize = useRef<{ width: number; height: number }>({
+        width: 0,
+        height: 0,
+    });
+
     const onResize = ({ clientX, clientY }: any) => {
         const curWidth = Math.max(520, clientX - left);
         const curHeight = Math.max(220, clientY - top);
+        pendingSize.current = { width: curWidth, height: curHeight };
         resizeRef.current.style.width = `${curWidth}px`;
         resizeRef.current.style.height = `${curHeight}px`;
         resizeRef.current.style.opacity = 1;
@@ -77,8 +83,8 @@ const Window: React.FC<WindowProps> = (props) => {
 
     const stopResize = () => {
         setIsResizing(false);
-        setWidth(resizeRef.current.style.width);
-        setHeight(resizeRef.current.style.height);
+        setWidth(pendingSize.current.width);
+        setHeight(pendingSize.current.height);
         resizeRef.current.style.opacity = 0;
         window.removeEventListener('mousemove', onResize, false);
         window.removeEventListener('mouseup', stopResize, false);
@@ -276,7 +282,7 @@ const Window: React.FC<WindowProps> = (props) => {
                         <div style={styles.bottomBar}>
                             <div
                                 style={Object.assign({}, styles.insetBorder, {
-                                    flex: 5 / 7,
+                                    flex: 5,
                                     alignItems: 'center',
                                 })}
                             >
@@ -469,7 +475,7 @@ const styles: StyleSheetCSS = {
         padding: 2,
     },
     bottomResizeContainer: {
-        flex: 2 / 7,
+        flex: 2,
 
         justifyContent: 'flex-end',
         padding: 0,
