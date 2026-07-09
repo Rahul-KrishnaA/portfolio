@@ -380,7 +380,6 @@ const styles: StyleSheetCSS = {
     window: {
         backgroundColor: Colors.lightGray,
         position: 'absolute',
-        outline: '3px solid gold',
     },
     dragHitbox: {
         position: 'absolute',
@@ -414,12 +413,11 @@ const styles: StyleSheetCSS = {
     },
     resizeHitbox: {
         position: 'absolute',
-        width: 60,
-        height: 60,
-        bottom: -20,
-        right: -20,
+        width: 24,
+        height: 24,
+        bottom: -8,
+        right: -8,
         cursor: 'nwse-resize',
-        outline: '3px solid hotpink',
     },
     topBar: {
         backgroundColor: Colors.blue,
@@ -441,7 +439,6 @@ const styles: StyleSheetCSS = {
         marginTop: 8,
         marginBottom: 8,
         overflow: 'hidden',
-        outline: '3px solid orange',
     },
     contentInner: {
         border: `1px solid ${Colors.lightGray}`,
@@ -451,7 +448,6 @@ const styles: StyleSheetCSS = {
         width: '100%',
         boxSizing: 'border-box',
         overflow: 'hidden',
-        outline: '3px solid magenta',
     },
     content: {
         flex: 1,
@@ -462,13 +458,11 @@ const styles: StyleSheetCSS = {
         // overflow: 'scroll',
         overflowX: 'hidden',
         backgroundColor: Colors.white,
-        outline: '3px solid yellow',
     },
     bottomBar: {
         flexShrink: 1,
         width: '100%',
         height: 20,
-        outline: '3px solid purple',
     },
     bottomSpacer: {
         width: 16,
@@ -486,7 +480,6 @@ const styles: StyleSheetCSS = {
         justifyContent: 'flex-end',
         padding: 0,
         marginLeft: 2,
-        outline: '3px solid cyan',
     },
     windowTopButtons: {
         // zIndex: 10000,

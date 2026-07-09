@@ -183,7 +183,6 @@ const styles: StyleSheetCSS = {
         minHeight: 0,
         flexDirection: 'column',
         boxSizing: 'border-box',
-        outline: '3px solid red',
     },
     toolbar: {
         width: '100%',
@@ -192,7 +191,6 @@ const styles: StyleSheetCSS = {
         borderBottom: '1px solid #808080',
         flexShrink: 0,
         boxSizing: 'border-box',
-        outline: '3px solid lime',
     },
     toolbarButton: {
         minWidth: 28,
@@ -216,7 +214,6 @@ const styles: StyleSheetCSS = {
         flexDirection: 'column',
         padding: 16,
         boxSizing: 'border-box',
-        outline: '3px solid deepskyblue',
     },
     page: {
         marginBottom: 16,
