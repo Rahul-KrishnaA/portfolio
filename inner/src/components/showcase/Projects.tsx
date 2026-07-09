@@ -1,153 +1,149 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import software from '../../assets/pictures/projects/software.gif';
-import art from '../../assets/pictures/projects/art.gif';
-import music from '../../assets/pictures/projects/music.gif';
+import React from 'react';
+import ResumeDownload from './ResumeDownload';
 
 export interface ProjectsProps {}
 
-interface ProjectBoxProps {
-    icon: string;
+interface ProjectEntryProps {
     title: string;
-    subtitle: string;
-    route: string;
-    iconStyle: React.CSSProperties;
+    period: string;
+    context: string;
+    tags: string[];
+    domain: string;
+    description: string;
+    link?: string;
 }
 
-const ProjectBox: React.FC<ProjectBoxProps> = ({
-    icon,
+const ProjectEntry: React.FC<ProjectEntryProps> = ({
     title,
-    subtitle,
-    route,
-    iconStyle,
-}) => {
-    const [, setIsHovering] = useState(false);
-    const navigation = useNavigate();
-
-    const handleClick = () => {
-        navigation(`/projects/${route}`);
-    };
-
-    const onMouseEnter = () => {
-        setIsHovering(true);
-    };
-
-    const onMouseLeave = () => {
-        setIsHovering(false);
-    };
-
-    return (
-        <div
-            onMouseDown={handleClick}
-            className="big-button-container"
-            style={styles.projectLink}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-        >
-            <div style={styles.projectLinkLeft}>
-                <img
-                    src={icon}
-                    style={Object.assign(
-                        {},
-                        styles.projectLinkImage,
-                        iconStyle
-                    )}
-                    alt=""
-                />
-                <div style={styles.projectText}>
-                    <h1 style={{ fontSize: 48 }}>{title}</h1>
-                    <h3>{subtitle}</h3>
-                </div>
-            </div>
-            <div style={styles.projectLinkRight}></div>
+    period,
+    context,
+    tags,
+    domain,
+    description,
+    link,
+}) => (
+    <div style={styles.entry}>
+        <div style={styles.headerRow}>
+            <h2>{title}</h2>
+            <b><p>{period}</p></b>
         </div>
-    );
-};
+        <div style={styles.subRow}>
+            <p style={styles.context}>{context}</p>
+            {link && (
+                <a href={link} target="_blank" rel="noreferrer">
+                    <h4>GitHub</h4>
+                </a>
+            )}
+        </div>
+        <p style={styles.domain}><i>{domain}</i></p>
+        <div style={styles.tagRow}>
+            {tags.map((t) => (
+                <span key={t} style={styles.tag}>{t}</span>
+            ))}
+        </div>
+        <div className="text-block">
+            <p>{description}</p>
+        </div>
+    </div>
+);
 
 const Projects: React.FC<ProjectsProps> = (props) => {
     return (
         <div className="site-page-content">
+            <ResumeDownload />
             <h1>Projects</h1>
-            <h3>& Hobbies</h3>
             <br />
             <p>
-                Click on one of the areas below to check out some of my favorite
-                projects I've done in that field. I spent a lot of time to
-                include a lot of visuals and interactive media to showcase each
-                project. Enjoy!
+                A selection of engineering and AI/ML projects spanning
+                industrial automation, natural language processing, computer
+                vision, and finance.
             </p>
             <br />
-            <div style={styles.projectLinksContainer}>
-                <ProjectBox
-                    icon={software}
-                    iconStyle={styles.computerIcon}
-                    title="Software"
-                    subtitle="PROJECTS"
-                    route="software"
-                />
-                <ProjectBox
-                    icon={music}
-                    iconStyle={styles.musicIcon}
-                    title="Music"
-                    subtitle="VENTURES"
-                    route="music"
-                />
-                <ProjectBox
-                    icon={art}
-                    iconStyle={styles.artIcon}
-                    title="Art"
-                    subtitle="ENDEAVORS"
-                    route="art"
-                />
-            </div>
+
+            <ProjectEntry
+                title="Superimposition of Cut-Section with Tire Profile @ Standard Rim (IP-Phase 1)"
+                period="Mar 2025 – Jul 2025"
+                context="Apollo Tyres Ltd — Global R&D & Tyre Testing Division"
+                domain="Automotive Engineering / Computer-Aided Design / Industrial Analytics"
+                tags={['Python', 'PyAutoCAD', 'AutoCAD', 'Digital Image Processing', 'NumPy', 'OpenCV', 'MATLAB']}
+                description="A 4-month industrial project at Apollo Tyres Ltd under the Global R&D and Tyre Testing division. The project focused on superimposition of tyre cut-sections with standard rim profiles during IP-Phase 1 inspection. Developed Python-based automation using PyAutoCAD and image processing techniques to analyse tyre geometry, rim standards, and profile alignment for inspection and validation purposes."
+            />
+
+            <ProjectEntry
+                title="LexRAG — Retrieval Augmented Generation System"
+                period="Jul 2025 – Present"
+                context="Personal / Academic Project"
+                domain="Natural Language Processing / AI / Search Systems"
+                tags={['Python', 'RAG', 'Streamlit', 'LangChain', 'OpenAI GPT', 'Vector Database', 'Prompt Engineering']}
+                description="AI-driven regulatory compliance analyser using Retrieval-Augmented Generation (RAG) to evaluate laws against organisational policies. Uses vector databases for semantic search and LLMs for contextual analysis and compliance reporting."
+            />
+
+            <ProjectEntry
+                title="AI Finance Assistant"
+                period="Jan 2025 – May 2025"
+                context="Personal Project"
+                domain="Artificial Intelligence / FinTech / Machine Learning"
+                tags={['Python', 'OpenAI GPT', 'LangChain', 'NLP', 'Financial Data', 'API Integration', 'Streamlit']}
+                description="An AI-powered personal finance assistant built with Python and Streamlit that helps users manage expenses, set savings goals, and get smart financial insights using natural language input."
+            />
+
+            <ProjectEntry
+                title="Handwritten Digit Recognition Using CNN and OpenCV"
+                period="Jul 2024 – Nov 2024"
+                context="Personal Project"
+                domain="Computer Vision / Deep Learning / Machine Learning"
+                tags={['Python', 'OpenCV', 'TensorFlow', 'Keras', 'CNN', 'NumPy', 'MNIST']}
+                description="A deep learning project that recognises handwritten digits using a Convolutional Neural Network (CNN) trained on the MNIST dataset, with real-time digit drawing and prediction using OpenCV."
+            />
+
+            <ProjectEntry
+                title="Safe Zone Detection Using ConvexHull"
+                period="Jan 2025 – May 2025"
+                context="Personal Project"
+                domain="Computer Vision / Image Processing / Machine Learning"
+                tags={['Python', 'OpenCV', 'Convex Hull Algorithm', 'NumPy', 'Image Processing', 'Folium']}
+                description="A geographic safety visualisation tool that uses Convex Hull geometry to compute and display whether a user-specified location lies within a safe zone formed by real-world GPS coordinates, with interactive mapping via Folium."
+            />
         </div>
     );
 };
 
 const styles: StyleSheetCSS = {
-    projectLinksContainer: {
+    entry: {
         flexDirection: 'column',
-        width: '100%',
-        display: 'flex',
-        flex: 1,
+        marginBottom: 32,
+        borderBottom: '1px solid #c0c0c0',
+        paddingBottom: 24,
     },
-    projectLink: {
-        marginBottom: 24,
-        cursor: 'pointer',
-        width: '100%',
-        boxSizing: 'border-box',
-
-        alignItems: 'center',
+    headerRow: {
         justifyContent: 'space-between',
+        alignItems: 'flex-end',
     },
-    projectText: {
-        justifyContent: 'center',
-        flexDirection: 'column',
-    },
-    projectLinkImage: {
-        width: 48,
-        // height: 48,
-        marginRight: 38,
-    },
-    projectLinkLeft: {
-        marginLeft: 16,
+    subRow: {
+        justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: 4,
     },
-    computerIcon: {
-        width: 56,
-        height: 56,
+    context: {
+        color: '#333',
     },
-    musicIcon: {
-        width: 48,
-        height: 48,
+    domain: {
+        color: '#555',
+        marginBottom: 8,
+        fontSize: 13,
     },
-    arrowIcon: {
-        width: 48,
-        height: 48,
+    tagRow: {
+        flexWrap: 'wrap',
+        marginBottom: 12,
     },
-    artIcon: {
-        width: 21 * 2,
-        height: 37 * 2,
+    tag: {
+        backgroundColor: '#c0c0c0',
+        border: '1px solid #808080',
+        padding: '1px 8px',
+        fontSize: 12,
+        marginRight: 5,
+        marginBottom: 5,
+        display: 'inline-block',
     },
 };
 

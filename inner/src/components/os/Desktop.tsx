@@ -1,14 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Colors from '../../constants/colors';
 import ShowcaseExplorer from '../applications/ShowcaseExplorer';
-import Doom from '../applications/Doom';
-import OregonTrail from '../applications/OregonTrail';
 import ShutdownSequence from './ShutdownSequence';
-// import ThisComputer from '../applications/ThisComputer';
-import Henordle from '../applications/Henordle';
 import Toolbar from './Toolbar';
 import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
-import Scrabble from '../applications/Scrabble';
 import { IconName } from '../../assets/icons';
 import Credits from '../applications/Credits';
 
@@ -24,41 +19,11 @@ const APPLICATIONS: {
         component: React.FC<ExtendedWindowAppProps<any>>;
     };
 } = {
-    // computer: {
-    //     key: 'computer',
-    //     name: 'This Computer',
-    //     shortcutIcon: 'computerBig',
-    //     component: ThisComputer,
-    // },
     showcase: {
         key: 'showcase',
         name: 'My Showcase',
         shortcutIcon: 'showcaseIcon',
         component: ShowcaseExplorer,
-    },
-    trail: {
-        key: 'trail',
-        name: 'The Oregon Trail',
-        shortcutIcon: 'trailIcon',
-        component: OregonTrail,
-    },
-    doom: {
-        key: 'doom',
-        name: 'Doom',
-        shortcutIcon: 'doomIcon',
-        component: Doom,
-    },
-    scrabble: {
-        key: 'scrabble',
-        name: 'Scrabble',
-        shortcutIcon: 'scrabbleIcon',
-        component: Scrabble,
-    },
-    henordle: {
-        key: 'henordle',
-        name: 'Henordle',
-        shortcutIcon: 'henordleIcon',
-        component: Henordle,
     },
     credits: {
         key: 'credits',
@@ -70,9 +35,7 @@ const APPLICATIONS: {
 
 const Desktop: React.FC<DesktopProps> = (props) => {
     const [windows, setWindows] = useState<DesktopWindows>({});
-
     const [shortcuts, setShortcuts] = useState<DesktopShortcutProps[]>([]);
-
     const [shutdown, setShutdown] = useState(false);
     const [numShutdowns, setNumShutdowns] = useState(1);
 
@@ -119,7 +82,6 @@ const Desktop: React.FC<DesktopProps> = (props) => {
     }, []);
 
     const removeWindow = useCallback((key: string) => {
-        // Absolute hack and a half
         setTimeout(() => {
             setWindows((prevWindows) => {
                 const newWindows = { ...prevWindows };
@@ -203,7 +165,6 @@ const Desktop: React.FC<DesktopProps> = (props) => {
 
     return !shutdown ? (
         <div style={styles.desktop}>
-            {/* For each window in windows, loop over and render  */}
             {Object.keys(windows).map((key) => {
                 const element = windows[key].component;
                 if (!element) return <div key={`win-${key}`}></div>;
@@ -261,11 +222,6 @@ const styles: StyleSheetCSS = {
         minHeight: '100%',
         flex: 1,
         backgroundColor: Colors.turquoise,
-    },
-    shutdown: {
-        minHeight: '100%',
-        flex: 1,
-        backgroundColor: '#1d2e2f',
     },
     shortcutContainer: {
         position: 'absolute',

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from '../general';
-
-import forhire from '../../assets/pictures/forHireGif.gif';
 import { useNavigate } from 'react-router';
 
 export interface HomeProps {}
@@ -16,30 +14,20 @@ const Home: React.FC<HomeProps> = (props) => {
     return (
         <div style={styles.page}>
             <div style={styles.header}>
-                <h1 style={styles.name}>Henry Heffernan</h1>
-                <h2>Software Engineer</h2>
+                <h1 style={styles.name}>Rahul Krishna A</h1>
+                <h2>Computer Science Undergraduate</h2>
+                <h3 style={styles.subtitle}>SRM IST · CGPA 9.83/10 · Class of 2027</h3>
             </div>
             <div style={styles.buttons}>
-                <Link containerStyle={styles.link} to="about" text="ABOUT" />
-                <Link
-                    containerStyle={styles.link}
-                    to="experience"
-                    text="EXPERIENCE"
-                />
-                <Link
-                    containerStyle={styles.link}
-                    to="projects"
-                    text="PROJECTS"
-                />
-                <Link
-                    containerStyle={styles.link}
-                    to="contact"
-                    text="CONTACT"
-                />
+                <Link containerStyle={styles.link} to="summary" text="SUMMARY" />
+                <Link containerStyle={styles.link} to="skills" text="SKILLS" />
+                <Link containerStyle={styles.link} to="projects" text="PROJECTS" />
+                <Link containerStyle={styles.link} to="education" text="EDUCATION" />
+                <Link containerStyle={styles.link} to="experience" text="EXPERIENCE" />
+                <Link containerStyle={styles.link} to="certifications" text="CERTS" />
+                <Link containerStyle={styles.link} to="contact" text="CONTACT" />
             </div>
-            <div style={styles.forHireContainer} onMouseDown={goToContact}>
-                {/* <img src={forhire} alt="" /> */}
-            </div>
+            <div style={styles.forHireContainer} onMouseDown={goToContact} />
         </div>
     );
 };
@@ -57,35 +45,32 @@ const styles: StyleSheetCSS = {
     },
     header: {
         textAlign: 'center',
-        marginBottom: 64,
-        marginTop: 64,
-
+        marginBottom: 48,
+        marginTop: 48,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    buttons: {
-        justifyContent: 'space-between',
+    subtitle: {
+        marginTop: 8,
+        fontWeight: 'normal',
     },
-    image: {
-        width: 800,
+    buttons: {
+        justifyContent: 'center',
+        flexWrap: 'wrap',
     },
     link: {
-        padding: 16,
-    },
-    nowHiring: {
-        backgroundColor: 'red',
-        padding: 16,
+        padding: 12,
     },
     forHireContainer: {
-        marginTop: 64,
+        marginTop: 48,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         cursor: 'pointer',
     },
     name: {
-        fontSize: 72,
+        fontSize: 64,
         marginBottom: 16,
         lineHeight: 0.9,
     },

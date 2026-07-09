@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from '../../constants/colors';
-import twitterIcon from '../../assets/pictures/contact-twitter.png';
 import ghIcon from '../../assets/pictures/contact-gh.png';
 import inIcon from '../../assets/pictures/contact-in.png';
 import ResumeDownload from './ResumeDownload';
 
 export interface ContactProps {}
 
-// function to validate email
 const validateEmail = (email: string) => {
     const re =
         // eslint-disable-next-line
@@ -56,30 +54,23 @@ const Contact: React.FC<ContactProps> = (props) => {
         }
         try {
             setIsLoading(true);
-            const res = await fetch(
-                'https://api.henryheffernan.com/api/contact',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        company,
-                        email,
-                        name,
-                        message,
-                    }),
-                }
-            );
-            // the response will be either {success: true} or {success: false, error: message}
+            const apiUrl =
+                process.env.REACT_APP_CONTACT_URL || '/api/send-email';
+            const res = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ company, email, name, message }),
+            });
             const data = (await res.json()) as
-                | {
-                      success: false;
-                      error: string;
-                  }
-                | { success: true };
-            if (data.success) {
-                setFormMessage(`Message successfully sent. Thank you ${name}!`);
+                | { success: false; error: string }
+                | { success: true }
+                | { message: string };
+            const success =
+                'success' in data ? data.success : data.message === 'success';
+            if (success) {
+                setFormMessage(`Message sent successfully. Thank you ${name}!`);
                 setCompany('');
                 setEmail('');
                 setName('');
@@ -87,7 +78,9 @@ const Contact: React.FC<ContactProps> = (props) => {
                 setFormMessageColor(colors.blue);
                 setIsLoading(false);
             } else {
-                setFormMessage(data.error);
+                setFormMessage(
+                    'error' in data ? data.error : 'Something went wrong.'
+                );
                 setFormMessageColor(colors.red);
                 setIsLoading(false);
             }
@@ -116,30 +109,26 @@ const Contact: React.FC<ContactProps> = (props) => {
                 <div style={styles.socials}>
                     <SocialBox
                         icon={ghIcon}
-                        link={'https://github.com/henryjeff'}
+                        link={'https://github.com/Rahul-KrishnaA'}
                     />
                     <SocialBox
                         icon={inIcon}
-                        link={'https://www.linkedin.com/in/henryheffernan/'}
-                    />
-                    <SocialBox
-                        icon={twitterIcon}
-                        link={'https://twitter.com/henryheffernan'}
+                        link={'https://linkedin.com/in/rahulkrishna-a'}
                     />
                 </div>
             </div>
             <div className="text-block">
                 <p>
-                    I am currently employed, however if you have any
-                    opportunities, feel free to reach out - I would love to
-                    chat! You can reach me via my personal email, or fill out
-                    the form below!
+                    I am currently open to internships, research collaborations,
+                    and full-time opportunities. Feel free to reach out — I
+                    would love to connect! You can email me directly or fill out
+                    the form below.
                 </p>
                 <br />
                 <p>
                     <b>Email: </b>
-                    <a href="mailto:henryheffernan@gmail.com">
-                        henryheffernan@gmail.com
+                    <a href="mailto:rk0148@srmist.edu.in">
+                        rk0148@srmist.edu.in
                     </a>
                 </p>
 
@@ -176,14 +165,14 @@ const Contact: React.FC<ContactProps> = (props) => {
                     />
                     <label>
                         <p>
-                            <b>Company (optional):</b>
+                            <b>Company / Institution (optional):</b>
                         </p>
                     </label>
                     <input
                         style={styles.formItem}
-                        type="company"
+                        type="text"
                         name="company"
-                        placeholder="Company"
+                        placeholder="Company or Institution"
                         value={company}
                         onChange={(e) => setCompany(e.target.value)}
                     />
@@ -225,7 +214,7 @@ const Contact: React.FC<ContactProps> = (props) => {
                                     <sub>
                                         {formMessage
                                             ? `${formMessage}`
-                                            : ' All messages get forwarded straight to my personal email'}
+                                            : ' All messages are forwarded to my personal email'}
                                     </sub>
                                 </b>
                             </p>
@@ -269,7 +258,6 @@ const styles: StyleSheetCSS = {
     },
     formInfo: {
         textAlign: 'right',
-
         flexDirection: 'column',
         alignItems: 'flex-end',
         paddingLeft: 24,
@@ -293,8 +281,6 @@ const styles: StyleSheetCSS = {
     social: {
         width: 4,
         height: 4,
-        // borderRadius: 1000,
-
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 8,

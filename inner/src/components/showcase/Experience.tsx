@@ -7,232 +7,143 @@ const Experience: React.FC<ExperienceProps> = (props) => {
     return (
         <div className="site-page-content">
             <ResumeDownload />
+
+            {/* Apollo Tyres */}
             <div style={styles.headerContainer}>
                 <div style={styles.header}>
                     <div style={styles.headerRow}>
-                        <h1>Hover</h1>
+                        <h1>Apollo Tyres Ltd.</h1>
                         <a
                             rel="noreferrer"
                             target="_blank"
-                            href={'https://hover.gg/'}
+                            href="https://www.apollotyres.com/"
                         >
-                            <h4>www.hover.gg</h4>
+                            <h4>www.apollotyres.com</h4>
                         </a>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>Frontend Engineer</h3>
+                        <h3>Industrial Project Intern — Tyre Testing & R&D</h3>
                         <b>
-                            <p>Summer 2020 - Fall 2021</p>
+                            <p>Mar 2025 – Jul 2025</p>
                         </b>
+                    </div>
+                    <div style={styles.headerRow}>
+                        <p>Chennai, Tamil Nadu, India</p>
+                        <a
+                            href="/experience/apollo-rd.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <button className="site-button" style={styles.certBtn}>
+                                View Certificate
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
             <div className="text-block">
                 <p>
-                    Targeted towards online content creators and streamers
-                    looking to build a brand, Hover is the home of over 150K
-                    users. Written in Typescript using React, React-Native,
-                    Framer, Express, and Redux.
+                    Completed a 4-month industrial project at Apollo Tyres Ltd
+                    under the Global R&D and Tyre Testing division. The project
+                    focused on the superimposition of tyre cut-sections with
+                    standard rim profiles during IP-Phase 1 inspection.
+                </p>
+                <br />
+                <p>
+                    <b>Project:</b> "Superimposition of Cut-Section with Tire
+                    Profile @ Standard Rim (IP-Phase 1)"
                 </p>
                 <br />
                 <ul>
                     <li>
                         <p>
-                            Architected and engineered the vertical scrolling
-                            discover player which, at its daily peak, was
-                            responsible for generating over 600,000 views across
-                            20,000 active users.
+                            Developed Python-based automation using PyAutoCAD
+                            and digital image processing techniques to analyse
+                            tyre geometry, rim standards, and profile alignment.
                         </p>
                     </li>
                     <li>
                         <p>
-                            Designed and implemented multiple features to
-                            increase app usability and user experience while
-                            ensuring the quality, maintainability and
-                            scalability of the front end as the user base grew
-                            by over 50,000.
+                            Applied OpenCV, NumPy, and MATLAB for inspection
+                            and validation of tyre profiles at standard rim
+                            dimensions.
                         </p>
                     </li>
                     <li>
                         <p>
-                            Coordinated major refactors targeted towards app
-                            optimization and performance resulting in a smoother
-                            user experience and accomplished by eliminating
-                            redundant re-renders and API calls by over 50%.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            Directed and executed an internal migration of 3
-                            individual repositories to a single monorepo,
-                            greatly reducing overhead for developing new
-                            features, fixing bugs, and managing dependencies.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            Rebuilt the website with React and shared mobile app
-                            components allowing users to access a wide variety
-                            of app interactions entirely on the web, resulting
-                            in over 700,000 total site visits.
+                            Collaborated with industry and academic mentors and
+                            successfully delivered the project report.
                         </p>
                     </li>
                 </ul>
+                <br />
+                <p>
+                    <b>Technologies:</b> Python, PyAutoCAD, AutoCAD, Digital
+                    Image Processing, NumPy, OpenCV, MATLAB
+                </p>
             </div>
+
+            {/* BPCL */}
             <div style={styles.headerContainer}>
                 <div style={styles.header}>
                     <div style={styles.headerRow}>
-                        <h1>BrACS</h1>
+                        <h1>BPCL</h1>
                         <a
-                            target="_blank"
                             rel="noreferrer"
-                            href={'https://bracs.co/'}
+                            target="_blank"
+                            href="https://www.bharatpetroleum.in/"
                         >
-                            <h4>www.bracs.co</h4>
+                            <h4>bharatpetroleum.in</h4>
                         </a>
                     </div>
                     <div style={styles.headerRow}>
-                        <h3>Team Lead & Engineer</h3>
+                        <h3>Information Systems Intern</h3>
                         <b>
-                            <p>Fall 2021 - Spring 2022</p>
+                            <p>Dec 2024</p>
                         </b>
+                    </div>
+                    <div style={styles.headerRow}>
+                        <p>Bharat Petroleum Corporation Ltd. — Kochi Refinery, Kerala</p>
+                        <a
+                            href="/experience/bpcl-internship.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <button className="site-button" style={styles.certBtn}>
+                                View Certificate
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
             <div className="text-block">
                 <p>
-                    Supervised and developed the front end of bracs.co, a
-                    beautifully simple and effective bracket creation and
-                    management engine. Written in Typescript using React and
-                    deployed using AWS Elastic Beanstalk.
+                    Completed an academic internship at the Information Systems
+                    Department, BPCL Kochi Refinery.
                 </p>
                 <br />
-                <ul>
-                    <li>
-                        <p>
-                            Managed the project and team members by conducting
-                            bi-weekly stand-ups.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            Architected bracket view UI using React Flow and
-                            custom bracket data types built from binary trees.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            Created conversion algorithms to serialize bracket
-                            tree data to allow for saving in the cloud.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            Implemented bracket generation utilities which
-                            employ gray code for proper team seeding and
-                            placement.
-                        </p>
-                    </li>
-                </ul>
-            </div>
-            <div style={styles.headerContainer}>
-                <div style={styles.header}>
-                    <div style={styles.headerRow}>
-                        <h1>K-F/X</h1>
-                        <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href={'https://kfxnyc.com/'}
-                        >
-                            <h4>www.kfxnyc.com</h4>
-                        </a>
-                    </div>
-                    <div style={styles.headerRow}>
-                        <h3>Special Effects Technician</h3>
-                        <b>
-                            <p>Fall 2019, Summer 2021</p>
-                        </b>
-                    </div>
-                </div>
-            </div>
-            <div className="text-block">
                 <p>
-                    Applied problem solving and technical skills to operate
-                    large equipment such as rain machines, fog machines, small
-                    explosives and general rigging with a professional crew of
-                    50+ people.
+                    <b>Project:</b> "Personal Protective Equipment (PPE)
+                    System"
                 </p>
                 <br />
-                <h3 style={styles.indent}>Screen Credits:</h3>
                 <ul>
-                    <li style={styles.row}>
-                        <p>• Ray Donovan</p>
+                    <li>
                         <p>
-                            [{' '}
-                            <a
-                                href="https://www.sho.com/ray-donovan"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                SHOWTIME
-                            </a>{' '}
-                            ]
+                            Gained exposure to industrial safety systems and IT
+                            support processes within a large refinery operation.
                         </p>
                     </li>
-                    <li style={styles.row}>
-                        <p>• Ray Donovan: The Movie</p>
+                    <li>
                         <p>
-                            [{' '}
-                            <a
-                                href="https://www.sho.com/titles/3508117/ray-donovan-the-movie"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                SHOWTIME
-                            </a>{' '}
-                            ]
+                            Worked on a PPE detection system project and
+                            submitted the internship project report.
                         </p>
                     </li>
-                    <li style={styles.row}>
-                        <p>• Hightown</p>
+                    <li>
                         <p>
-                            [{' '}
-                            <a
-                                href="https://www.starz.com/us/en/series/hightown/57463"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                STARZ
-                            </a>{' '}
-                            ]
-                        </p>
-                    </li>
-                    <li style={styles.row}>
-                        <p>• Bull</p>
-                        <p>
-                            [{' '}
-                            <a
-                                href="https://www.cbs.com/shows/bull/"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                CBS
-                            </a>{' '}
-                            ]
-                        </p>
-                    </li>
-                    <li style={styles.row}>
-                        <p>• At Home with Amy Sedaris</p>
-                        <p>
-                            [{' '}
-                            <a
-                                href="https://www.trutv.com/shows/at-home-with-amy-sedaris"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                truTV
-                            </a>{' '}
-                            ]
+                            Demonstrated professional conduct and obtained
+                            practical knowledge of refinery IS operations.
                         </p>
                     </li>
                 </ul>
@@ -247,46 +158,19 @@ const styles: StyleSheetCSS = {
         justifyContent: 'space-between',
         width: '100%',
     },
-    skillRow: {
-        flex: 1,
-        justifyContent: 'space-between',
-    },
-    skillName: {
-        minWidth: 56,
-    },
-    skill: {
-        flex: 1,
-        padding: 8,
-        alignItems: 'center',
-    },
-    progressBar: {
-        flex: 1,
-        background: 'red',
-        marginLeft: 8,
-        height: 8,
-    },
-    hoverLogo: {
-        height: 32,
-        marginBottom: 16,
-    },
     headerContainer: {
         alignItems: 'flex-end',
         width: '100%',
         justifyContent: 'center',
-    },
-    hoverText: {
-        marginBottom: 8,
-    },
-    indent: {
-        marginLeft: 24,
+        marginTop: 32,
     },
     headerRow: {
         justifyContent: 'space-between',
-        alignItems: 'flex-end',
+        alignItems: 'center',
     },
-    row: {
-        display: 'flex',
-        justifyContent: 'space-between',
+    certBtn: {
+        height: 28,
+        minWidth: 120,
     },
 };
 

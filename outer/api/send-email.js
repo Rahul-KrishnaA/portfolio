@@ -24,7 +24,7 @@ module.exports = async function handler(req, res) {
         await transporter.verify();
         const info = await transporter.sendMail({
             from: `"${name}" <${process.env.FOLIO_EMAIL}>`,
-            to: 'henryheffernan@gmail.com, henryheffernan.folio@gmail.com',
+            to: 'rk0148@srmist.edu.in',
             subject: `${name} <${email}>${company ? ` from ${company}` : ''} submitted a contact form`,
             text: message,
         });

@@ -2,13 +2,17 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../showcase/Home';
 import About from '../showcase/About';
+import Summary from '../showcase/Summary';
+import Skills from '../showcase/Skills';
+import Education from '../showcase/Education';
+import Research from '../showcase/Research';
+import Community from '../showcase/Community';
+import Certifications from '../showcase/Certifications';
+import Hobbies from '../showcase/Hobbies';
 import Window from '../os/Window';
 import Experience from '../showcase/Experience';
 import Projects from '../showcase/Projects';
 import Contact from '../showcase/Contact';
-import SoftwareProjects from '../showcase/projects/Software';
-import MusicProjects from '../showcase/projects/Music';
-import ArtProjects from '../showcase/projects/Art';
 import VerticalNavbar from '../showcase/VerticalNavbar';
 import useInitialWindowSize from '../../hooks/useInitialWindowSize';
 
@@ -23,12 +27,12 @@ const ShowcaseExplorer: React.FC<ShowcaseExplorerProps> = (props) => {
             left={56}
             width={initWidth}
             height={initHeight}
-            windowTitle="Henry Heffernan - Showcase 2022"
+            windowTitle="Rahul Krishna A - Showcase 2025"
             windowBarIcon="windowExplorerIcon"
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            bottomLeftText={'© Copyright 2022 Henry Heffernan'}
+            bottomLeftText={'© 2025 Rahul Krishna A'}
         >
             <Router>
                 <div className="site-page">
@@ -36,18 +40,16 @@ const ShowcaseExplorer: React.FC<ShowcaseExplorerProps> = (props) => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
+                        <Route path="/summary" element={<Summary />} />
+                        <Route path="/skills" element={<Skills />} />
+                        <Route path="/education" element={<Education />} />
                         <Route path="/experience" element={<Experience />} />
                         <Route path="/projects" element={<Projects />} />
+                        <Route path="/research" element={<Research />} />
+                        <Route path="/community" element={<Community />} />
+                        <Route path="/certifications" element={<Certifications />} />
+                        <Route path="/hobbies" element={<Hobbies />} />
                         <Route path="/contact" element={<Contact />} />
-                        <Route
-                            path="/projects/software"
-                            element={<SoftwareProjects />}
-                        />
-                        <Route
-                            path="/projects/music"
-                            element={<MusicProjects />}
-                        />
-                        <Route path="/projects/art" element={<ArtProjects />} />
                     </Routes>
                 </div>
             </Router>
