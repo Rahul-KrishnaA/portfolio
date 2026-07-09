@@ -27,16 +27,9 @@ const CREDITS = [
         ],
     },
     {
-        title: 'Special Thanks',
-        rows: [
-            ['Bruno Simon', 'SimonDev'],
-            ['Lorelei Kravinsky', 'Scott Bass'],
-            ['Trey Briccetti', 'Mom, Dad & Angela'],
-        ],
-    },
-    {
         title: 'Inspiration',
         rows: [
+            ['Henry Heffernan', 'Original Portfolio'],
             ['Bruno Simon', 'Jesse Zhou'],
             ['Pink Yellow', 'Vivek Patel'],
         ],
