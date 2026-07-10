@@ -12,6 +12,7 @@ import windowExplorerIcon from './windowExplorerIcon.png';
 import windowsStartIcon from './windowsStartIcon.png';
 import close from './close.png';
 import fileIcon from './fileIcon.png';
+import settingsIcon from './settingsIcon.png';
 
 const icons = {
     windowResize: windowResize,
@@ -26,6 +27,7 @@ const icons = {
     fileIcon: fileIcon,
     windowExplorerIcon: windowExplorerIcon,
     windowsStartIcon: windowsStartIcon,
+    settingsIcon: settingsIcon,
 };
 
 export type IconName = keyof typeof icons;
