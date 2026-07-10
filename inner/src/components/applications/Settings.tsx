@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import Window from '../os/Window';
 import SettingsGrid from '../settings/SettingsGrid';
 import SettingsCategoryPlaceholder from '../settings/SettingsCategoryPlaceholder';
