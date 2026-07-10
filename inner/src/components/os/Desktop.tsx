@@ -6,6 +6,7 @@ import Toolbar from './Toolbar';
 import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
 import { IconName } from '../../assets/icons';
 import Credits from '../applications/Credits';
+import Settings from '../applications/Settings';
 import {
     WindowManagerProvider,
     useWindowManager,
@@ -34,6 +35,12 @@ const APPLICATIONS: {
         name: 'Credits',
         shortcutIcon: 'credits',
         component: Credits,
+    },
+    settings: {
+        key: 'settings',
+        name: 'Settings',
+        shortcutIcon: 'settingsIcon',
+        component: Settings,
     },
 };
 
