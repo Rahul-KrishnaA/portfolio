@@ -17,9 +17,13 @@ export interface CertificateViewerProps extends WindowAppProps {
     cascadeOffset: number;
 }
 
-const ZOOM_MIN = 0.5;
+const ZOOM_MIN = 0.1;
 const ZOOM_MAX = 3;
 const ZOOM_STEP = 0.25;
+// Below 25%, step by 5% instead of 25% so zooming out doesn't jump straight
+// from 25% to the 10% floor (25 -> 20 -> 15 -> 10).
+const ZOOM_STEP_FINE = 0.05;
+const ZOOM_FINE_THRESHOLD = 0.25;
 
 const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = 600;
@@ -86,11 +90,17 @@ const CertificateViewer: React.FC<CertificateViewerProps> = (props) => {
     }, []);
 
     const zoomIn = useCallback(() => {
-        setZoom((z) => Math.min(ZOOM_MAX, +(z + ZOOM_STEP).toFixed(2)));
+        setZoom((z) => {
+            const step = z < ZOOM_FINE_THRESHOLD ? ZOOM_STEP_FINE : ZOOM_STEP;
+            return Math.min(ZOOM_MAX, +(z + step).toFixed(2));
+        });
     }, []);
 
     const zoomOut = useCallback(() => {
-        setZoom((z) => Math.max(ZOOM_MIN, +(z - ZOOM_STEP).toFixed(2)));
+        setZoom((z) => {
+            const step = z <= ZOOM_FINE_THRESHOLD ? ZOOM_STEP_FINE : ZOOM_STEP;
+            return Math.max(ZOOM_MIN, +(z - step).toFixed(2));
+        });
     }, []);
 
     const resetZoom = useCallback(() => {
