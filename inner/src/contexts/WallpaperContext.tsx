@@ -50,6 +50,16 @@ const loadSelection = (): WallpaperSelection => {
     }
 };
 
+// Shared so any UI rendering a wallpaper image (desktop background, Settings
+// swatch previews, etc.) uses the exact same background-image CSS and can't
+// drift apart.
+export const imageBackgroundStyle = (url: string): React.CSSProperties => ({
+    backgroundImage: `url(${url})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+});
+
 const styleForSelection = (
     selection: WallpaperSelection
 ): React.CSSProperties => {
@@ -61,12 +71,7 @@ const styleForSelection = (
         // File was removed since it was chosen — fall back to default.
         return { backgroundColor: DEFAULT_SELECTION.color };
     }
-    return {
-        backgroundImage: `url(${image.url})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-    };
+    return imageBackgroundStyle(image.url);
 };
 
 const WallpaperContext = createContext<WallpaperContextValue | null>(null);

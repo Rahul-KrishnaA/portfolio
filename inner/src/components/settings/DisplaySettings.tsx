@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+    imageBackgroundStyle,
     useWallpaper,
     WallpaperSelection,
 } from '../../contexts/WallpaperContext';
@@ -39,6 +40,10 @@ const DisplaySettings: React.FC<DisplaySettingsProps> = () => {
             <div
                 key={key}
                 title={title}
+                // onMouseDown (not onClick) to match the SettingsTile /
+                // DesktopShortcut pattern used elsewhere for icon-style
+                // clickable elements, avoiding conflicts with the window
+                // drag/focus handling which also listens on mousedown.
                 onMouseDown={() => setSelection(swatch)}
                 style={Object.assign(
                     {},
@@ -76,11 +81,7 @@ const DisplaySettings: React.FC<DisplaySettingsProps> = () => {
                         `image-${img.name}`,
                         { kind: 'image', name: img.name },
                         img.name,
-                        {
-                            backgroundImage: `url(${img.url})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }
+                        imageBackgroundStyle(img.url)
                     )
                 )}
             </div>
@@ -127,8 +128,13 @@ const styles: StyleSheetCSS = {
         border: `2px solid transparent`,
     },
     swatchSelected: {
-        // Win98 inset selection look
-        border: `2px solid ${Colors.blue}`,
+        // Win98 inset selection look — same two-tone bevel technique as
+        // `insetBorder` in Window.tsx (dark top/left, light bottom/right),
+        // using black/white so the highlight reads clearly against every
+        // swatch color rather than blending into one of them.
+        border: `2px solid ${Colors.white}`,
+        borderTopColor: Colors.black,
+        borderLeftColor: Colors.black,
     },
     swatchInner: {
         flex: 1,
