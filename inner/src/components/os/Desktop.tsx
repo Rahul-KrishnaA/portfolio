@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ShowcaseExplorer from '../applications/ShowcaseExplorer';
 import ShutdownSequence from './ShutdownSequence';
 import Toolbar from './Toolbar';
-import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
+import DesktopShortcut from './DesktopShortcut';
 import { IconName } from '../../assets/icons';
 import Credits from '../applications/Credits';
 import Settings from '../applications/Settings';
@@ -15,10 +15,24 @@ import {
     useWallpaper,
 } from '../../contexts/WallpaperContext';
 import { ThemeProvider } from '../../contexts/ThemeContext';
+import {
+    DesktopIconPositionsProvider,
+    useDesktopIconPositions,
+    ResolvedIconPosition,
+} from '../../contexts/DesktopIconPositionsContext';
 
 export interface DesktopProps {}
 
 type ExtendedWindowAppProps<T> = T & WindowAppProps;
+
+// Config for the desktop's fixed set of app shortcuts — distinct from
+// `DesktopShortcutProps`, which now also carries per-render drag/position
+// data resolved in `DesktopInner` below.
+interface ShortcutConfig {
+    shortcutName: string;
+    icon: IconName;
+    onOpen: () => void;
+}
 
 const APPLICATIONS: {
     [key in string]: {
@@ -52,9 +66,11 @@ const Desktop: React.FC<DesktopProps> = () => {
     return (
         <ThemeProvider>
             <WallpaperProvider>
-                <WindowManagerProvider>
-                    <DesktopInner />
-                </WindowManagerProvider>
+                <DesktopIconPositionsProvider>
+                    <WindowManagerProvider>
+                        <DesktopInner />
+                    </WindowManagerProvider>
+                </DesktopIconPositionsProvider>
             </WallpaperProvider>
         </ThemeProvider>
     );
@@ -71,8 +87,9 @@ const DesktopInner: React.FC = () => {
         resetWindows,
     } = useWindowManager();
     const { desktopStyle } = useWallpaper();
+    const { getPosition, setPosition, isOccupied } = useDesktopIconPositions();
 
-    const [shortcuts, setShortcuts] = useState<DesktopShortcutProps[]>([]);
+    const [shortcuts, setShortcuts] = useState<ShortcutConfig[]>([]);
     const [shutdown, setShutdown] = useState(false);
     const [numShutdowns, setNumShutdowns] = useState(1);
 
@@ -88,7 +105,7 @@ const DesktopInner: React.FC = () => {
     }, [shutdown]);
 
     useEffect(() => {
-        const newShortcuts: DesktopShortcutProps[] = [];
+        const newShortcuts: ShortcutConfig[] = [];
         Object.keys(APPLICATIONS).forEach((key) => {
             const app = APPLICATIONS[key];
             newShortcuts.push({
@@ -151,22 +168,40 @@ const DesktopInner: React.FC = () => {
                 );
             })}
             <div style={styles.shortcuts}>
-                {shortcuts.map((shortcut, i) => {
-                    return (
-                        <div
-                            style={Object.assign({}, styles.shortcutContainer, {
-                                top: i * 104,
-                            })}
-                            key={shortcut.shortcutName}
-                        >
+                {(() => {
+                    // Every shortcut's position resolved via `getPosition`
+                    // (defaults included) — required by the context's
+                    // `isOccupied` contract so a dragged icon can never
+                    // silently land on an icon that was never moved.
+                    const allResolvedPositions: ResolvedIconPosition[] =
+                        shortcuts.map((shortcut, i) => ({
+                            key: shortcut.shortcutName,
+                            position: getPosition(shortcut.shortcutName, i),
+                        }));
+
+                    return shortcuts.map((shortcut, i) => {
+                        const position = getPosition(shortcut.shortcutName, i);
+                        return (
                             <DesktopShortcut
+                                key={shortcut.shortcutName}
                                 icon={shortcut.icon}
                                 shortcutName={shortcut.shortcutName}
                                 onOpen={shortcut.onOpen}
+                                position={position}
+                                onPositionChange={(pos) =>
+                                    setPosition(shortcut.shortcutName, pos)
+                                }
+                                isPositionAvailable={(pos) =>
+                                    !isOccupied(
+                                        pos,
+                                        shortcut.shortcutName,
+                                        allResolvedPositions
+                                    )
+                                }
                             />
-                        </div>
-                    );
-                })}
+                        );
+                    });
+                })()}
             </div>
             <Toolbar
                 windows={windows}
@@ -191,13 +226,14 @@ const styles: StyleSheetCSS = {
         minHeight: '100%',
         flex: 1,
     },
-    shortcutContainer: {
-        position: 'absolute',
-    },
     shortcuts: {
+        // Origin now lives per-icon in DesktopShortcut's own left/top
+        // (`6 + col * 72`, `16 + row * 104`) since position is data-driven
+        // per shortcut, not an index into this wrapper. This wrapper only
+        // anchors that per-icon math at the desktop's own (0, 0).
         position: 'absolute',
-        top: 16,
-        left: 6,
+        top: 0,
+        left: 0,
     },
     windowWrapper: {
         transformOrigin: 'center bottom',
