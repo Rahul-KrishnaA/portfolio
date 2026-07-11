@@ -14,6 +14,7 @@ import {
     WallpaperProvider,
     useWallpaper,
 } from '../../contexts/WallpaperContext';
+import { ThemeProvider } from '../../contexts/ThemeContext';
 
 export interface DesktopProps {}
 
@@ -49,11 +50,13 @@ const APPLICATIONS: {
 
 const Desktop: React.FC<DesktopProps> = () => {
     return (
-        <WallpaperProvider>
-            <WindowManagerProvider>
-                <DesktopInner />
-            </WindowManagerProvider>
-        </WallpaperProvider>
+        <ThemeProvider>
+            <WallpaperProvider>
+                <WindowManagerProvider>
+                    <DesktopInner />
+                </WindowManagerProvider>
+            </WallpaperProvider>
+        </ThemeProvider>
     );
 };
 
