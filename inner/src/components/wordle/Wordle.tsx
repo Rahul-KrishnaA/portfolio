@@ -273,8 +273,8 @@ const Wordle: React.FC<WordleProps> = () => {
     return (
         <div style={styles.container}>
             <div style={styles.header}>
-                <h2>Henordle</h2>
-                <p>Wordle but with a HENRY based twist.</p>
+                <h2>Wordle</h2>
+                <p>A word guessing game.</p>
             </div>
             <motion.div
                 variants={gameOverAnimations}
