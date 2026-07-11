@@ -169,6 +169,10 @@ const DesktopInner: React.FC = () => {
                 windows={windows}
                 toggleMinimize={toggleMinimize}
                 shutdown={startShutdown}
+                openWindow={openWindow}
+                focusWindow={focusWindow}
+                closeWindow={closeWindow}
+                minimizeWindow={minimizeWindow}
             />
         </div>
     ) : (

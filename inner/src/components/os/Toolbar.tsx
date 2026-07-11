@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Colors from '../../constants/colors';
 import { Icon } from '../general';
+import { IconName } from '../../assets/icons';
+import { GAMES } from './games';
 // import { } from '../general';
 // import Home from '../site/Home';
 // import Window from './Window';
@@ -9,12 +11,25 @@ export interface ToolbarProps {
     windows: DesktopWindows;
     toggleMinimize: (key: string) => void;
     shutdown: () => void;
+    openWindow: (
+        key: string,
+        name: string,
+        icon: IconName,
+        element: JSX.Element
+    ) => void;
+    focusWindow: (key: string) => void;
+    closeWindow: (key: string) => void;
+    minimizeWindow: (key: string) => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
     windows,
     toggleMinimize,
     shutdown,
+    openWindow,
+    focusWindow,
+    closeWindow,
+    minimizeWindow,
 }) => {
     const getTime = () => {
         const date = new Date();
@@ -29,6 +44,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
     };
 
     const [startWindowOpen, setStartWindowOpen] = useState(false);
+    const [gamesMenuOpen, setGamesMenuOpen] = useState(false);
     const lastClickInside = useRef(false);
 
     const [lastActive, setLastActive] = useState('');
@@ -87,6 +103,22 @@ const Toolbar: React.FC<ToolbarProps> = ({
         }
     };
 
+    const openGame = (game: (typeof GAMES)[number]) => {
+        openWindow(
+            game.key,
+            game.name,
+            game.icon,
+            <game.component
+                onInteract={() => focusWindow(game.key)}
+                onMinimize={() => minimizeWindow(game.key)}
+                onClose={() => closeWindow(game.key)}
+                key={game.key}
+            />
+        );
+        setGamesMenuOpen(false);
+        setStartWindowOpen(false);
+    };
+
     return (
         <div style={styles.toolbarOuter}>
             {startWindowOpen && (
@@ -100,6 +132,46 @@ const Toolbar: React.FC<ToolbarProps> = ({
                         </div>
                         <div style={styles.startWindowContent}>
                             <div style={styles.startMenuSpace} />
+                            <div
+                                style={styles.gamesRowWrapper}
+                                onMouseEnter={() => setGamesMenuOpen(true)}
+                                onMouseLeave={() => setGamesMenuOpen(false)}
+                            >
+                                {gamesMenuOpen && (
+                                    <div style={styles.gamesFlyout}>
+                                        <div style={styles.gamesFlyoutInner}>
+                                            {GAMES.map((game) => (
+                                                <div
+                                                    key={game.key}
+                                                    className="start-menu-option"
+                                                    style={styles.startMenuOption}
+                                                    onMouseDown={() => openGame(game)}
+                                                >
+                                                    <Icon
+                                                        style={styles.startMenuIcon}
+                                                        icon={game.icon}
+                                                    />
+                                                    <p style={styles.startMenuText}>
+                                                        {game.name}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                <div
+                                    className="start-menu-option"
+                                    style={styles.startMenuOption}
+                                >
+                                    <Icon
+                                        style={styles.startMenuIcon}
+                                        icon="windowGameIcon"
+                                    />
+                                    <p style={styles.startMenuText}>
+                                        Games <span style={styles.gamesArrow}>▸</span>
+                                    </p>
+                                </div>
+                            </div>
                             <div style={styles.startMenuLine} />
                             <div
                                 className="start-menu-option"
@@ -275,6 +347,30 @@ const styles: StyleSheetCSS = {
         height: 1,
         background: Colors.white,
         borderTop: `1px solid ${Colors.darkGray}`,
+    },
+    gamesRowWrapper: {
+        position: 'relative',
+    },
+    gamesFlyout: {
+        position: 'absolute',
+        left: '100%',
+        bottom: 0,
+        boxSizing: 'border-box',
+        border: `1px solid ${Colors.white}`,
+        borderBottomColor: Colors.black,
+        borderRightColor: Colors.black,
+        background: Colors.lightGray,
+        minWidth: 180,
+    },
+    gamesFlyoutInner: {
+        border: `1px solid ${Colors.lightGray}`,
+        borderBottomColor: Colors.darkGray,
+        borderRightColor: Colors.darkGray,
+        flexDirection: 'column',
+        flex: 1,
+    },
+    gamesArrow: {
+        float: 'right',
     },
     activeTabInner: {
         border: `1px solid ${Colors.darkGray}`,
