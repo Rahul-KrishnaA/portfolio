@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Icon } from '../general';
 import { IconName } from '../../assets/icons';
 import colors from '../../constants/colors';
@@ -6,33 +6,68 @@ import colors from '../../constants/colors';
 export interface SettingsTileProps {
     icon: IconName;
     label: string;
-    onClick: () => void;
+    selected: boolean;
+    dimmed: boolean;
+    iconSize: number;
+    onSelect: () => void;
+    onOpen: () => void;
 }
 
 const SettingsTile: React.FC<SettingsTileProps> = ({
     icon,
     label,
-    onClick,
+    selected,
+    dimmed,
+    iconSize,
+    onSelect,
+    onOpen,
 }) => {
     const [isHovering, setIsHovering] = useState(false);
+    const [doubleClickTimerActive, setDoubleClickTimerActive] =
+        useState(false);
+
+    const handleMouseDown = useCallback(() => {
+        if (doubleClickTimerActive) {
+            setDoubleClickTimerActive(false);
+            onOpen();
+            return;
+        }
+        onSelect();
+        setDoubleClickTimerActive(true);
+        setTimeout(() => {
+            setDoubleClickTimerActive(false);
+        }, 300);
+    }, [doubleClickTimerActive, onSelect, onOpen]);
 
     return (
         <div
-            style={styles.tile}
+            style={Object.assign(
+                {},
+                styles.tile,
+                dimmed && styles.tileDimmed
+            )}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            onMouseDown={onClick}
+            onMouseDown={handleMouseDown}
         >
             <div
                 style={Object.assign(
                     {},
                     styles.iconContainer,
-                    isHovering && { backgroundColor: colors.blue }
+                    isHovering && !selected && { backgroundColor: colors.blue, opacity: 0.4 }
                 )}
             >
-                <Icon icon={icon} size={40} />
+                <Icon icon={icon} size={iconSize} />
             </div>
-            <p style={styles.label}>{label}</p>
+            <p
+                style={Object.assign(
+                    {},
+                    styles.label,
+                    selected && styles.labelSelected
+                )}
+            >
+                {label}
+            </p>
         </div>
     );
 };
@@ -46,6 +81,9 @@ const styles: StyleSheetCSS = {
         marginRight: 16,
         marginBottom: 16,
     },
+    tileDimmed: {
+        opacity: 0.5,
+    },
     iconContainer: {
         padding: 8,
         marginBottom: 4,
@@ -54,6 +92,11 @@ const styles: StyleSheetCSS = {
         fontFamily: 'MSSerif',
         fontSize: 12,
         textAlign: 'center',
+        padding: '1px 3px',
+    },
+    labelSelected: {
+        backgroundColor: colors.blue,
+        color: colors.white,
     },
 };
 
