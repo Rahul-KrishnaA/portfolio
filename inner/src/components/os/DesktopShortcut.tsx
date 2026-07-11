@@ -50,8 +50,6 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
         dragging: boolean;
     } | null>(null);
 
-    const [scaledStyle, setScaledStyle] = useState({});
-
     const requiredIcon = require(`../../assets/icons/${icon}.png`);
     const [doubleClickTimerActive, setDoubleClickTimerActive] = useState(false);
 
@@ -63,22 +61,6 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
     useEffect(() => {
         setShortcutId(getShortcutId());
     }, [shortcutName, getShortcutId]);
-
-    useEffect(() => {
-        if (containerRef.current && Object.keys(scaledStyle).length === 0) {
-            //@ts-ignore
-            const boundingBox = containerRef.current.getBoundingClientRect();
-            setScaledStyle({
-                transformOrigin: 'center',
-                transform: 'scale(1.5)',
-                left: boundingBox.width / 4,
-                top: boundingBox.height / 4,
-                // transform: 'scale(1.5)',
-                // left: boundingBox.width / 4,
-                // top: boundingBox.height / 4,
-            });
-        }
-    }, [scaledStyle]);
 
     const handleClickOutside = useCallback(
         (event: MouseEvent) => {
@@ -224,11 +206,22 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
             style={Object.assign(
                 {},
                 styles.appShortcut,
-                scaledStyle,
-                // Grid-derived left/top always wins over `scaledStyle`'s
-                // legacy centering-offset left/top (see effect above) — the
-                // grid position is now the single source of truth for where
-                // the icon sits.
+                // Grid-derived left/top is the single source of truth for
+                // where the icon sits (see GRID_ORIGIN_LEFT/TOP above). This
+                // used to be merged with a legacy `scaledStyle` nudge
+                // (transform: scale(1.5) + a left/top offset) computed from
+                // a pre-grid DOM structure where this element had no
+                // explicit left/top of its own — the scale was compensated
+                // by an ancestor wrapper's positioning. Now that this
+                // element owns its own absolute left/top directly, that
+                // same scale(1.5)/transformOrigin:center combo instead
+                // visually shifts the box up/left of its intended grid
+                // origin (scaling a positioned box from its own center
+                // pushes its edges outward from `left`/`top`, not from the
+                // grid cell). It served no other purpose (no CSS/hover rule
+                // depends on it), so it's removed entirely rather than
+                // reordered — positionStyle was never the bug, the stray
+                // transform was.
                 positionStyle
             )}
             onMouseDown={handleMouseDown}
