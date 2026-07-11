@@ -136,19 +136,24 @@ const ExplorerChrome: React.FC<ExplorerChromeProps> = ({ onClose }) => {
         closeMenu();
     };
 
+    // navigator.clipboard may be undefined (sync throw) AND writeText's
+    // promise can reject on permission denial (common inside the deployed
+    // iframe) — guard both so Cut/Copy never surface console errors.
+    const writeClipboardText = (text: string) => {
+        try {
+            navigator.clipboard.writeText(text).catch(() => {});
+        } catch {}
+    };
+
     const handleCut = () => {
         if (!selection || !selectedLabel) return;
-        try {
-            navigator.clipboard.writeText(`Control Panel\\${selectedLabel}`);
-        } catch {}
+        writeClipboardText(`Control Panel\\${selectedLabel}`);
         setClipboard({ key: selection, mode: 'cut' });
     };
 
     const handleCopy = () => {
         if (!selection || !selectedLabel) return;
-        try {
-            navigator.clipboard.writeText(`Control Panel\\${selectedLabel}`);
-        } catch {}
+        writeClipboardText(`Control Panel\\${selectedLabel}`);
         setClipboard({ key: selection, mode: 'copy' });
     };
 
@@ -218,12 +223,18 @@ const ExplorerChrome: React.FC<ExplorerChromeProps> = ({ onClose }) => {
         ],
     };
 
-    const renderAccelerated = (label: string) => (
-        <>
-            <u>{label.charAt(0)}</u>
-            {label.slice(1)}
-        </>
-    );
+    // Win98 disambiguates duplicate first letters: File gets F, so
+    // Favorites underlines its second letter (Fa̲vorites).
+    const renderAccelerated = (label: string) => {
+        const i = label === 'Favorites' ? 1 : 0;
+        return (
+            <>
+                {label.slice(0, i)}
+                <u>{label.charAt(i)}</u>
+                {label.slice(i + 1)}
+            </>
+        );
+    };
 
     return (
         <div style={styles.container} ref={containerRef}>
