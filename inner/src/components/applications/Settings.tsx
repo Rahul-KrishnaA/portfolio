@@ -3,6 +3,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import Window from '../os/Window';
 import SettingsGrid from '../settings/SettingsGrid';
 import SettingsCategoryPlaceholder from '../settings/SettingsCategoryPlaceholder';
+import DisplaySettings from '../settings/DisplaySettings';
 
 export interface SettingsProps extends WindowAppProps {}
 
@@ -23,6 +24,7 @@ const Settings: React.FC<SettingsProps> = (props) => {
             <Router>
                 <Routes>
                     <Route path="/" element={<SettingsGrid />} />
+                    <Route path="display" element={<DisplaySettings />} />
                     <Route
                         path=":category"
                         element={<SettingsCategoryPlaceholder />}
