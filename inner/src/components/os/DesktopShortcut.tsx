@@ -240,7 +240,7 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
                         }
                     )}
                 />
-                <Icon icon={icon} style={styles.icon} />
+                <Icon icon={icon} size={32 * SCALE} />
             </div>
             <div
                 className={
@@ -268,10 +268,20 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
     );
 };
 
+// The original design rendered icons at 1.5x their base 32px/8px-text size
+// via a runtime-measured `transform: scale(1.5)` (compensated by a
+// quarter-width/height left/top offset to re-center around the box's own
+// center). That measurement-and-offset hack is what broke once this
+// component started owning its own grid-driven left/top directly (see the
+// comment on `positionStyle` below). Baking the 1.5x enlargement into the
+// actual icon/text dimensions instead reproduces the same visual size
+// without any transform-vs-position interaction to get wrong.
+const SCALE = 1.5;
+
 const styles: StyleSheetCSS = {
     appShortcut: {
         position: 'absolute',
-        width: 56,
+        width: 56 * SCALE,
 
         justifyContent: 'center',
         alignItems: 'center',
@@ -283,7 +293,7 @@ const styles: StyleSheetCSS = {
         textOverflow: 'wrap',
         fontFamily: 'MSSerif',
         color: 'white',
-        fontSize: 8,
+        fontSize: 8 * SCALE,
         paddingRight: 2,
         paddingLeft: 2,
     },
@@ -294,8 +304,8 @@ const styles: StyleSheetCSS = {
     iconOverlay: {
         position: 'absolute',
         top: 0,
-        width: 32,
-        height: 32,
+        width: 32 * SCALE,
+        height: 32 * SCALE,
     },
     checkerboard: {
         backgroundImage: `linear-gradient(45deg, ${colors.blue} 25%, transparent 25%),
