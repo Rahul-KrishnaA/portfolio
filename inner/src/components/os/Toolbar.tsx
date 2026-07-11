@@ -145,7 +145,10 @@ const Toolbar: React.FC<ToolbarProps> = ({
                                                     key={game.key}
                                                     className="start-menu-option"
                                                     style={styles.startMenuOption}
-                                                    onMouseDown={() => openGame(game)}
+                                                    onMouseDown={(event) => {
+                                                        event.stopPropagation();
+                                                        openGame(game);
+                                                    }}
                                                 >
                                                     <Icon
                                                         style={styles.startMenuIcon}
