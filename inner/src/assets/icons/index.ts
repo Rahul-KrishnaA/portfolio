@@ -18,6 +18,7 @@ import trailIcon from './trailIcon.png';
 import scrabbleIcon from './scrabbleIcon.png';
 import windowGameIcon from './windowGameIcon.png';
 import wordleIcon from './wordleIcon.png';
+import minesweeperIcon from './minesweeperIcon.png';
 
 const icons = {
     windowResize: windowResize,
@@ -38,6 +39,7 @@ const icons = {
     scrabbleIcon: scrabbleIcon,
     windowGameIcon: windowGameIcon,
     wordleIcon: wordleIcon,
+    minesweeperIcon: minesweeperIcon,
 };
 
 export type IconName = keyof typeof icons;
