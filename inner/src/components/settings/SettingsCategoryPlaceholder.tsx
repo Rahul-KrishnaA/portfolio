@@ -1,13 +1,14 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CATEGORIES } from './categories';
+import { useControlPanel } from './ControlPanelContext';
 
 export interface SettingsCategoryPlaceholderProps {}
 
 const SettingsCategoryPlaceholder: React.FC<
     SettingsCategoryPlaceholderProps
 > = () => {
-    const navigate = useNavigate();
+    const { goBack } = useControlPanel();
     const { category } = useParams<{ category: string }>();
     const matched = CATEGORIES.find((c) => c.key === category);
     const label = matched ? matched.label : 'Settings';
@@ -17,7 +18,7 @@ const SettingsCategoryPlaceholder: React.FC<
             <button
                 className="site-button"
                 style={styles.backButton}
-                onClick={() => navigate('/')}
+                onClick={goBack}
             >
                 ← Back
             </button>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTheme, Theme } from '../../contexts/ThemeContext';
 import Colors from '../../constants/colors';
+import { useControlPanel } from './ControlPanelContext';
 
 export interface PersonalizationSettingsProps {}
 
@@ -11,7 +11,7 @@ const OPTIONS: { value: Theme; label: string }[] = [
 ];
 
 const PersonalizationSettings: React.FC<PersonalizationSettingsProps> = () => {
-    const navigate = useNavigate();
+    const { goBack } = useControlPanel();
     const { theme, setTheme } = useTheme();
 
     return (
@@ -19,7 +19,7 @@ const PersonalizationSettings: React.FC<PersonalizationSettingsProps> = () => {
             <button
                 className="site-button"
                 style={styles.backButton}
-                onClick={() => navigate('/')}
+                onClick={goBack}
             >
                 ← Back
             </button>

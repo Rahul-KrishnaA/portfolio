@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
     imageBackgroundStyle,
     useWallpaper,
@@ -8,6 +7,7 @@ import {
 import { WALLPAPER_COLORS } from './wallpapers';
 import { WALLPAPER_IMAGES } from '../../assets/wallpapers';
 import Colors from '../../constants/colors';
+import { useControlPanel } from './ControlPanelContext';
 
 export interface DisplaySettingsProps {}
 
@@ -26,7 +26,7 @@ const isSelected = (
 };
 
 const DisplaySettings: React.FC<DisplaySettingsProps> = () => {
-    const navigate = useNavigate();
+    const { goBack } = useControlPanel();
     const { selection, setSelection } = useWallpaper();
 
     const renderSwatch = (
@@ -61,7 +61,7 @@ const DisplaySettings: React.FC<DisplaySettingsProps> = () => {
             <button
                 className="site-button"
                 style={styles.backButton}
-                onClick={() => navigate('/')}
+                onClick={goBack}
             >
                 ← Back
             </button>
