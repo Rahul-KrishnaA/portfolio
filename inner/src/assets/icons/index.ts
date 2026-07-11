@@ -19,6 +19,11 @@ import scrabbleIcon from './scrabbleIcon.png';
 import windowGameIcon from './windowGameIcon.png';
 import wordleIcon from './wordleIcon.png';
 import minesweeperIcon from './minesweeperIcon.png';
+import displayIcon from './displayIcon.png';
+import personalizationIcon from './personalizationIcon.png';
+import soundsIcon from './soundsIcon.png';
+import timeIcon from './timeIcon.png';
+import fontsIcon from './fontsIcon.png';
 
 const icons = {
     windowResize: windowResize,
@@ -40,6 +45,11 @@ const icons = {
     windowGameIcon: windowGameIcon,
     wordleIcon: wordleIcon,
     minesweeperIcon: minesweeperIcon,
+    displayIcon: displayIcon,
+    personalizationIcon: personalizationIcon,
+    soundsIcon: soundsIcon,
+    timeIcon: timeIcon,
+    fontsIcon: fontsIcon,
 };
 
 export type IconName = keyof typeof icons;
