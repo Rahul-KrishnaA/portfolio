@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Colors from '../../constants/colors';
 import ShowcaseExplorer from '../applications/ShowcaseExplorer';
 import ShutdownSequence from './ShutdownSequence';
 import Toolbar from './Toolbar';
@@ -11,6 +10,10 @@ import {
     WindowManagerProvider,
     useWindowManager,
 } from '../../contexts/WindowManagerContext';
+import {
+    WallpaperProvider,
+    useWallpaper,
+} from '../../contexts/WallpaperContext';
 
 export interface DesktopProps {}
 
@@ -46,9 +49,11 @@ const APPLICATIONS: {
 
 const Desktop: React.FC<DesktopProps> = () => {
     return (
-        <WindowManagerProvider>
-            <DesktopInner />
-        </WindowManagerProvider>
+        <WallpaperProvider>
+            <WindowManagerProvider>
+                <DesktopInner />
+            </WindowManagerProvider>
+        </WallpaperProvider>
     );
 };
 
@@ -62,6 +67,7 @@ const DesktopInner: React.FC = () => {
         toggleMinimize,
         resetWindows,
     } = useWindowManager();
+    const { desktopStyle } = useWallpaper();
 
     const [shortcuts, setShortcuts] = useState<DesktopShortcutProps[]>([]);
     const [shutdown, setShutdown] = useState(false);
@@ -119,7 +125,7 @@ const DesktopInner: React.FC = () => {
     }, [numShutdowns]);
 
     return !shutdown ? (
-        <div style={styles.desktop}>
+        <div style={Object.assign({}, styles.desktop, desktopStyle)}>
             {Object.keys(windows).map((key) => {
                 const element = windows[key].component;
                 if (!element) return <div key={`win-${key}`}></div>;
@@ -177,7 +183,6 @@ const styles: StyleSheetCSS = {
     desktop: {
         minHeight: '100%',
         flex: 1,
-        backgroundColor: Colors.turquoise,
     },
     shortcutContainer: {
         position: 'absolute',
