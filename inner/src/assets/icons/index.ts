@@ -24,6 +24,12 @@ import personalizationIcon from './personalizationIcon.png';
 import soundsIcon from './soundsIcon.png';
 import timeIcon from './timeIcon.png';
 import fontsIcon from './fontsIcon.png';
+import backIcon from './backIcon.png';
+import forwardIcon from './forwardIcon.png';
+import upIcon from './upIcon.png';
+import cutIcon from './cutIcon.png';
+import copyIcon from './copyIcon.png';
+import pasteIcon from './pasteIcon.png';
 
 const icons = {
     windowResize: windowResize,
@@ -50,6 +56,12 @@ const icons = {
     soundsIcon: soundsIcon,
     timeIcon: timeIcon,
     fontsIcon: fontsIcon,
+    backIcon: backIcon,
+    forwardIcon: forwardIcon,
+    upIcon: upIcon,
+    cutIcon: cutIcon,
+    copyIcon: copyIcon,
+    pasteIcon: pasteIcon,
 };
 
 export type IconName = keyof typeof icons;
