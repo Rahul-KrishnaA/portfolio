@@ -5,6 +5,8 @@ import SettingsGrid from '../settings/SettingsGrid';
 import SettingsCategoryPlaceholder from '../settings/SettingsCategoryPlaceholder';
 import DisplaySettings from '../settings/DisplaySettings';
 import PersonalizationSettings from '../settings/PersonalizationSettings';
+import ExplorerChrome from '../settings/ExplorerChrome';
+import { CATEGORIES } from '../settings/categories';
 
 export interface SettingsProps extends WindowAppProps {}
 
@@ -13,16 +15,17 @@ const Settings: React.FC<SettingsProps> = (props) => {
         <Window
             top={80}
             left={80}
-            width={480}
-            height={360}
-            windowTitle="Settings"
+            width={520}
+            height={420}
+            windowTitle="Control Panel"
             windowBarIcon="settingsIcon"
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            bottomLeftText=""
+            bottomLeftText={`${CATEGORIES.length} object(s)`}
         >
             <Router>
+                <ExplorerChrome onClose={props.onClose} />
                 <Routes>
                     <Route path="/" element={<SettingsGrid />} />
                     <Route path="display" element={<DisplaySettings />} />
