@@ -4,6 +4,7 @@ import Window from '../os/Window';
 import SettingsGrid from '../settings/SettingsGrid';
 import SettingsCategoryPlaceholder from '../settings/SettingsCategoryPlaceholder';
 import DisplaySettings from '../settings/DisplaySettings';
+import PersonalizationSettings from '../settings/PersonalizationSettings';
 
 export interface SettingsProps extends WindowAppProps {}
 
@@ -25,6 +26,10 @@ const Settings: React.FC<SettingsProps> = (props) => {
                 <Routes>
                     <Route path="/" element={<SettingsGrid />} />
                     <Route path="display" element={<DisplaySettings />} />
+                    <Route
+                        path="personalization"
+                        element={<PersonalizationSettings />}
+                    />
                     <Route
                         path=":category"
                         element={<SettingsCategoryPlaceholder />}

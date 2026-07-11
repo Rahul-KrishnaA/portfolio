@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Window from '../os/Window';
 import { useInterval } from 'usehooks-ts';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export interface CreditsProps extends WindowAppProps {}
 
@@ -36,6 +37,7 @@ const CREDITS = [
 ];
 
 const Credits: React.FC<CreditsProps> = (props) => {
+    const { theme } = useTheme();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [time, setTime] = useState(0);
 
@@ -75,7 +77,10 @@ const Credits: React.FC<CreditsProps> = (props) => {
             <div
                 onMouseDown={nextSlide}
                 className="site-page"
-                style={styles.credits}
+                style={Object.assign({}, styles.credits, {
+                    backgroundColor: theme === 'dark' ? 'black' : 'white',
+                    color: theme === 'dark' ? 'white' : 'black',
+                })}
             >
                 <h2>Credits</h2>
                 <p>rahulkrishna.vercel.app, 2025</p>
@@ -124,12 +129,10 @@ const Credits: React.FC<CreditsProps> = (props) => {
 const styles: StyleSheetCSS = {
     credits: {
         width: '100%',
-        backgroundColor: 'black',
         paddingTop: 64,
         flexDirection: 'column',
         alignItems: 'center',
         paddingBottom: 64,
-        color: 'white',
         overflow: 'hidden',
     },
     row: {
