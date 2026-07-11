@@ -13,7 +13,7 @@ const SettingsGrid: React.FC<SettingsGridProps> = () => {
             {CATEGORIES.map((category) => (
                 <SettingsTile
                     key={category.key}
-                    icon="settingsIcon"
+                    icon={category.icon}
                     label={category.label}
                     onClick={() => navigate(category.key)}
                 />

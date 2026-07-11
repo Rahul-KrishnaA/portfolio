@@ -30,7 +30,7 @@ const SettingsTile: React.FC<SettingsTileProps> = ({
                     isHovering && { backgroundColor: colors.blue }
                 )}
             >
-                <Icon icon={icon} size={32} />
+                <Icon icon={icon} size={40} />
             </div>
             <p style={styles.label}>{label}</p>
         </div>
@@ -39,7 +39,7 @@ const SettingsTile: React.FC<SettingsTileProps> = ({
 
 const styles: StyleSheetCSS = {
     tile: {
-        width: 72,
+        width: 80,
         flexDirection: 'column',
         alignItems: 'center',
         cursor: 'pointer',
