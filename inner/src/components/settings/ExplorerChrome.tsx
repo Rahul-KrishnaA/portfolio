@@ -26,7 +26,8 @@ const ExplorerChrome: React.FC<ExplorerChromeProps> = ({ onClose }) => {
         icon: IconName,
         label: string,
         disabled: boolean,
-        onMouseDown?: () => void
+        onMouseDown?: () => void,
+        hasDropdown?: boolean
     ) => (
         <button
             style={Object.assign(
@@ -37,7 +38,10 @@ const ExplorerChrome: React.FC<ExplorerChromeProps> = ({ onClose }) => {
             disabled={disabled}
             onMouseDown={onMouseDown}
         >
-            <Icon icon={icon} size={16} />
+            <div style={styles.toolbarButtonTop}>
+                <Icon icon={icon} size={16} />
+                {hasDropdown && <p style={styles.toolbarDropdownArrow}>▾</p>}
+            </div>
             <p style={styles.toolbarLabel}>{label}</p>
         </button>
     );
@@ -83,8 +87,14 @@ const ExplorerChrome: React.FC<ExplorerChromeProps> = ({ onClose }) => {
                 ))}
             </div>
             <div style={styles.toolbar}>
-                {renderToolbarButton('backIcon', 'Back', !canGoBack, goBack)}
-                {renderToolbarButton('forwardIcon', 'Forward', true)}
+                {renderToolbarButton(
+                    'backIcon',
+                    'Back',
+                    !canGoBack,
+                    goBack,
+                    true
+                )}
+                {renderToolbarButton('forwardIcon', 'Forward', true, undefined, true)}
                 {renderToolbarButton('upIcon', 'Up', !canGoBack, goBack)}
                 <div style={styles.toolbarSeparator} />
                 {renderToolbarButton('cutIcon', 'Cut', true)}
@@ -100,8 +110,10 @@ const ExplorerChrome: React.FC<ExplorerChromeProps> = ({ onClose }) => {
                         style={styles.addressIcon}
                     />
                     <p style={styles.addressText}>Control Panel</p>
-                    <p style={styles.addressArrow}>▾</p>
                 </div>
+                <button style={styles.addressDropdownButton}>
+                    <p style={styles.addressArrow}>▾</p>
+                </button>
             </div>
         </div>
     );
@@ -172,6 +184,14 @@ const styles: StyleSheetCSS = {
         opacity: 0.4,
         cursor: 'default',
     },
+    toolbarButtonTop: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    toolbarDropdownArrow: {
+        fontSize: 8,
+        marginLeft: 2,
+    },
     toolbarLabel: {
         fontFamily: 'MSSerif',
         fontSize: 10,
@@ -202,6 +222,7 @@ const styles: StyleSheetCSS = {
         border: `1px solid ${Colors.darkGray}`,
         borderTopColor: Colors.black,
         borderLeftColor: Colors.black,
+        borderRightWidth: 0,
         backgroundColor: Colors.white,
         padding: '2px 4px',
     },
@@ -213,8 +234,20 @@ const styles: StyleSheetCSS = {
         fontFamily: 'MSSerif',
         fontSize: 12,
     },
+    addressDropdownButton: {
+        width: 16,
+        border: `1px solid ${Colors.white}`,
+        borderBottomColor: Colors.black,
+        borderRightColor: Colors.black,
+        backgroundColor: Colors.lightGray,
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        padding: 0,
+    },
     addressArrow: {
         fontSize: 10,
+        lineHeight: '10px',
     },
 };
 
