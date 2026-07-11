@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DosPlayer from '../dos/DosPlayer';
 import Window from '../os/Window';
 
 export interface OregonTrailAppProps extends WindowAppProps {}
 
-const OregonTrailApp: React.FC<OregonTrailAppProps> = (props) => {
-    const [width, setWidth] = useState(920);
-    const [height, setHeight] = useState(750);
+const WIDTH = 920;
+const HEIGHT = 750;
 
+const OregonTrailApp: React.FC<OregonTrailAppProps> = (props) => {
     return (
         <Window
             top={10}
             left={10}
-            width={width}
-            height={height}
+            width={WIDTH}
+            height={HEIGHT}
             windowTitle="The Oregon Trail"
             windowBarIcon="windowGameIcon"
             windowBarColor="#240C00"
@@ -21,10 +21,8 @@ const OregonTrailApp: React.FC<OregonTrailAppProps> = (props) => {
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            onWidthChange={setWidth}
-            onHeightChange={setHeight}
         >
-            <DosPlayer width={width} height={height} bundleUrl="trail.jsdos" />
+            <DosPlayer width={WIDTH} height={HEIGHT} bundleUrl="trail.jsdos" />
         </Window>
     );
 };

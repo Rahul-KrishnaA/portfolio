@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DosPlayer from '../dos/DosPlayer';
 import Window from '../os/Window';
 
 export interface DoomAppProps extends WindowAppProps {}
 
-const DoomApp: React.FC<DoomAppProps> = (props) => {
-    const [width, setWidth] = useState(980);
-    const [height, setHeight] = useState(670);
+const WIDTH = 980;
+const HEIGHT = 670;
 
+const DoomApp: React.FC<DoomAppProps> = (props) => {
     return (
         <Window
             top={10}
             left={10}
-            width={width}
-            height={height}
+            width={WIDTH}
+            height={HEIGHT}
             windowTitle="Doom"
             windowBarColor="#1C1C1C"
             windowBarIcon="windowGameIcon"
@@ -21,10 +21,8 @@ const DoomApp: React.FC<DoomAppProps> = (props) => {
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            onWidthChange={setWidth}
-            onHeightChange={setHeight}
         >
-            <DosPlayer width={width} height={height} bundleUrl="doom.jsdos" />
+            <DosPlayer width={WIDTH} height={HEIGHT} bundleUrl="doom.jsdos" />
         </Window>
     );
 };
