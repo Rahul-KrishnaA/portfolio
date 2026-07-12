@@ -22,10 +22,10 @@ const ResumeDownload: React.FC<ResumeDownloadProps> = ({ altText }) => {
 
 const styles: StyleSheetCSS = {
     resumeContainer: {
-        backgroundColor: 'white',
+        backgroundColor: 'var(--os-bg)',
         padding: 12,
         boxSizing: 'border-box',
-        border: '2px solid black',
+        border: '2px solid var(--os-text)',
         borderLeftWidth: 0,
         borderRightWidth: 0,
         width: '100%',

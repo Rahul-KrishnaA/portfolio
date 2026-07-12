@@ -384,7 +384,7 @@ const Window: React.FC<WindowProps> = (props) => {
 
 const styles: StyleSheetCSS = {
     window: {
-        backgroundColor: Colors.lightGray,
+        backgroundColor: 'var(--os-chrome-bg)',
         position: 'absolute',
     },
     dragHitbox: {
@@ -398,8 +398,8 @@ const styles: StyleSheetCSS = {
     },
     windowBorderOuter: {
         border: `1px solid ${Colors.black}`,
-        borderTopColor: colors.lightGray,
-        borderLeftColor: colors.lightGray,
+        borderTopColor: 'var(--os-edge-lightgray)',
+        borderLeftColor: 'var(--os-edge-lightgray)',
         flex: 1,
         width: '100%',
         height: '100%',
@@ -407,8 +407,8 @@ const styles: StyleSheetCSS = {
     },
     windowBorderInner: {
         border: `1px solid ${Colors.darkGray}`,
-        borderTopColor: colors.white,
-        borderLeftColor: colors.white,
+        borderTopColor: 'var(--os-edge-white)',
+        borderLeftColor: 'var(--os-edge-white)',
         flex: 1,
         width: '100%',
         height: '100%',
@@ -427,9 +427,9 @@ const styles: StyleSheetCSS = {
         boxSizing: 'border-box',
     },
     contentOuter: {
-        border: `1px solid ${Colors.white}`,
-        borderTopColor: colors.darkGray,
-        borderLeftColor: colors.darkGray,
+        border: `1px solid ${'var(--os-edge-white)'}`,
+        borderTopColor: Colors.darkGray,
+        borderLeftColor: Colors.darkGray,
         flexGrow: 1,
         width: '100%',
         boxSizing: 'border-box',
@@ -439,9 +439,9 @@ const styles: StyleSheetCSS = {
         overflow: 'hidden',
     },
     contentInner: {
-        border: `1px solid ${Colors.lightGray}`,
-        borderTopColor: colors.black,
-        borderLeftColor: colors.black,
+        border: `1px solid ${'var(--os-edge-lightgray)'}`,
+        borderTopColor: Colors.black,
+        borderLeftColor: Colors.black,
         flex: 1,
         width: '100%',
         boxSizing: 'border-box',
@@ -455,7 +455,7 @@ const styles: StyleSheetCSS = {
         position: 'relative',
         // overflow: 'scroll',
         overflowX: 'hidden',
-        backgroundColor: Colors.white,
+        backgroundColor: 'var(--os-bg)',
     },
     bottomBar: {
         flexShrink: 1,
@@ -467,9 +467,9 @@ const styles: StyleSheetCSS = {
         marginLeft: 2,
     },
     insetBorder: {
-        border: `1px solid ${Colors.white}`,
-        borderTopColor: colors.darkGray,
-        borderLeftColor: colors.darkGray,
+        border: `1px solid ${'var(--os-edge-white)'}`,
+        borderTopColor: Colors.darkGray,
+        borderLeftColor: Colors.darkGray,
         padding: 2,
     },
     bottomResizeContainer: {

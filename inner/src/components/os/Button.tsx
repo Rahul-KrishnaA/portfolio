@@ -68,16 +68,16 @@ const Button: React.FC<ButtonProps> = ({ icon, text, onClick }) => {
 const styles: StyleSheetCSS = {
     outerBorder: {
         border: `1px solid ${Colors.black}`,
-        borderTopColor: Colors.white,
-        borderLeftColor: Colors.white,
-        background: Colors.lightGray,
+        borderTopColor: 'var(--os-edge-white)',
+        borderLeftColor: 'var(--os-edge-white)',
+        background: 'var(--os-chrome-bg)',
 
         cursor: 'pointer',
     },
     innerBorder: {
         border: `1px solid ${Colors.darkGray}`,
-        borderTopColor: Colors.lightGray,
-        borderLeftColor: Colors.lightGray,
+        borderTopColor: 'var(--os-edge-lightgray)',
+        borderLeftColor: 'var(--os-edge-lightgray)',
         flex: 1,
     },
 };

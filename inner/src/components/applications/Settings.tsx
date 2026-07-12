@@ -63,7 +63,7 @@ const styles: StyleSheetCSS = {
     content: {
         flex: 1,
         width: '100%',
-        backgroundColor: '#ffffff',
+        backgroundColor: 'var(--os-bg)',
         overflow: 'auto',
     },
 };

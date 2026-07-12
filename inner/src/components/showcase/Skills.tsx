@@ -104,7 +104,7 @@ const styles: StyleSheetCSS = {
         gap: 8,
     },
     tag: {
-        backgroundColor: '#c0c0c0',
+        backgroundColor: 'var(--os-chrome-bg)',
         border: '1px solid #808080',
         padding: '2px 10px',
         fontSize: 13,

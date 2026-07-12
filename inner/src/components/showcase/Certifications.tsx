@@ -3,7 +3,7 @@ import FileActions from './FileActions';
 
 export interface CertificationsProps {}
 
-interface CertCardProps {
+export interface CertCardProps {
     title: string;
     issuer: string;
     date: string;
@@ -35,7 +35,7 @@ const CertCard: React.FC<CertCardProps> = ({
     );
 };
 
-const CERTS: CertCardProps[] = [
+export const CERTS: CertCardProps[] = [
     {
         title: 'AWS Certified Cloud Practitioner',
         issuer: 'Amazon Web Services (AWS)',
@@ -133,7 +133,7 @@ const styles: StyleSheetCSS = {
     },
     card: {
         border: '2px solid #808080',
-        backgroundColor: '#f0f0f0',
+        backgroundColor: 'var(--os-chrome-bg)',
         padding: 16,
         marginBottom: 12,
         justifyContent: 'space-between',
@@ -150,15 +150,15 @@ const styles: StyleSheetCSS = {
         marginBottom: 4,
     },
     issuer: {
-        color: '#444',
+        color: 'var(--os-text-muted)',
         marginBottom: 2,
     },
     date: {
-        color: '#666',
+        color: 'var(--os-text-muted)',
         fontSize: 13,
     },
     credId: {
-        color: '#888',
+        color: 'var(--os-text-muted)',
         marginTop: 4,
     },
     actions: {

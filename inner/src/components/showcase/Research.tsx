@@ -58,7 +58,7 @@ const styles: StyleSheetCSS = {
         alignItems: 'flex-end',
     },
     domain: {
-        color: '#444',
+        color: 'var(--os-text-muted)',
         marginBottom: 8,
         marginTop: 4,
     },
@@ -67,7 +67,7 @@ const styles: StyleSheetCSS = {
         marginBottom: 12,
     },
     tag: {
-        backgroundColor: '#c0c0c0',
+        backgroundColor: 'var(--os-chrome-bg)',
         border: '1px solid #808080',
         padding: '1px 8px',
         fontSize: 12,

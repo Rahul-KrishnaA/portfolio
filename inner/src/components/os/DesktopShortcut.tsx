@@ -3,6 +3,8 @@ import { IconName } from '../../assets/icons';
 import colors from '../../constants/colors';
 import { Icon } from '../general';
 import { GridPosition } from '../../contexts/DesktopIconPositionsContext';
+import { usePinnedApps } from '../../contexts/PinnedAppsContext';
+import ContextMenu, { ContextMenuItem } from './ContextMenu';
 
 // Grid origin/cell size — matches `styles.shortcuts`'s former wrapper offset
 // (top: 16, left: 6) and the previous hardcoded `i * 104` row height. Folded
@@ -17,9 +19,14 @@ const GRID_CELL_HEIGHT = 104;
 // fires completely unchanged.
 const DRAG_THRESHOLD = 5;
 
+// Matches Toolbar.tsx's styles.toolbarOuter.height — used to hit-test a
+// drag-end drop point against the taskbar for drag-to-pin.
+const TASKBAR_HEIGHT = 32;
+
 export interface DesktopShortcutProps {
     icon: IconName;
     shortcutName: string;
+    shortcutKey: string;
     invertText?: boolean;
     onOpen: () => void;
     position: GridPosition;
@@ -30,6 +37,7 @@ export interface DesktopShortcutProps {
 const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
     icon,
     shortcutName,
+    shortcutKey,
     invertText,
     onOpen,
     position,
@@ -40,6 +48,17 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
     const [shortcutId, setShortcutId] = useState('');
     const [lastSelected, setLastSelected] = useState(false);
     const containerRef = useRef<any>();
+
+    const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(
+        null
+    );
+    const {
+        pinnedStartMenu,
+        pinnedTaskbar,
+        toggleStartMenuPin,
+        toggleTaskbarPin,
+        hideFromDesktop,
+    } = usePinnedApps();
 
     // Tracks an in-progress drag gesture between mousedown and mouseup.
     // `dragging` only flips true once the threshold is crossed, and is what
@@ -139,6 +158,22 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
                 return;
             }
 
+            // Reset the live-drag transform regardless of outcome — on
+            // commit the `position` prop will update to match (parent
+            // re-render); on revert/pin this simply snaps back to the
+            // unchanged `position` prop's coordinates.
+            if (containerRef.current) {
+                containerRef.current.style.transform = 'translate(0px, 0px)';
+            }
+
+            // Dropped onto the taskbar: pin instead of grid-repositioning.
+            if (event.clientY >= window.innerHeight - TASKBAR_HEIGHT) {
+                if (!pinnedTaskbar.includes(shortcutKey)) {
+                    toggleTaskbarPin(shortcutKey);
+                }
+                return;
+            }
+
             const dx = event.clientX - info.startX;
             const dy = event.clientY - info.startY;
 
@@ -152,14 +187,6 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
             );
             const newPos = { col: newCol, row: newRow };
 
-            // Reset the live-drag transform regardless of outcome — on
-            // commit the `position` prop will update to match (parent
-            // re-render); on revert this simply snaps back to the
-            // unchanged `position` prop's coordinates.
-            if (containerRef.current) {
-                containerRef.current.style.transform = 'translate(0px, 0px)';
-            }
-
             const isSamePosition =
                 newPos.col === position.col && newPos.row === position.row;
 
@@ -169,11 +196,26 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
             // Otherwise (same cell, or occupied by another icon): revert —
             // transform already reset above, and no context write happens.
         },
-        [onDragMove, position, isPositionAvailable, onPositionChange, handleClickShortcut]
+        [
+            onDragMove,
+            position,
+            isPositionAvailable,
+            onPositionChange,
+            handleClickShortcut,
+            pinnedTaskbar,
+            toggleTaskbarPin,
+            shortcutKey,
+        ]
     );
 
     const handleMouseDown = useCallback(
         (event: React.MouseEvent) => {
+            // Right-click (button 2) must only open the context menu
+            // (handleContextMenu below), not also arm the click/drag
+            // gesture — otherwise a right-click's mouseup would select
+            // the icon and arm the double-click timer, letting a quick
+            // follow-up click unexpectedly open the app.
+            if (event.button !== 0) return;
             event.preventDefault();
             dragInfoRef.current = {
                 startX: event.clientX,
@@ -200,7 +242,34 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
         top: GRID_ORIGIN_TOP + position.row * GRID_CELL_HEIGHT,
     };
 
+    const handleContextMenu = useCallback((event: React.MouseEvent) => {
+        event.preventDefault();
+        setContextMenu({ x: event.clientX, y: event.clientY });
+    }, []);
+
+    const menuItems: ContextMenuItem[] = [
+        { label: 'Open', onSelect: onOpen },
+        {
+            label: pinnedStartMenu.has(shortcutKey)
+                ? 'Unpin from Start Menu'
+                : 'Pin to Start Menu',
+            onSelect: () => toggleStartMenuPin(shortcutKey),
+        },
+        {
+            label: pinnedTaskbar.includes(shortcutKey)
+                ? 'Unpin from Taskbar'
+                : 'Pin to Taskbar',
+            onSelect: () => toggleTaskbarPin(shortcutKey),
+        },
+        {
+            label: 'Remove from Desktop',
+            onSelect: () => hideFromDesktop(shortcutKey),
+            separatorBefore: true,
+        },
+    ];
+
     return (
+        <>
         <div
             id={`${shortcutId}`}
             style={Object.assign(
@@ -225,6 +294,7 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
                 positionStyle
             )}
             onMouseDown={handleMouseDown}
+            onContextMenu={handleContextMenu}
             ref={containerRef}
         >
             <div id={`${shortcutId}`} style={styles.iconContainer}>
@@ -237,6 +307,8 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
                         isSelected && styles.checkerboard,
                         isSelected && {
                             WebkitMask: `url(${requiredIcon})`,
+                            WebkitMaskSize: '100% 100%',
+                            WebkitMaskRepeat: 'no-repeat',
                         }
                     )}
                 />
@@ -265,6 +337,15 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
                 </p>
             </div>
         </div>
+        {contextMenu && (
+            <ContextMenu
+                x={contextMenu.x}
+                y={contextMenu.y}
+                items={menuItems}
+                onClose={() => setContextMenu(null)}
+            />
+        )}
+        </>
     );
 };
 
@@ -312,8 +393,8 @@ const styles: StyleSheetCSS = {
         linear-gradient(-45deg, ${colors.blue} 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, ${colors.blue} 75%),
         linear-gradient(-45deg, transparent 75%, ${colors.blue} 75%)`,
-        backgroundSize: `2px 2px`,
-        backgroundPosition: `0 0, 0 1px, 1px -1px, -1px 0px`,
+        backgroundSize: `${2 * SCALE}px ${2 * SCALE}px`,
+        backgroundPosition: `0 0, 0 ${SCALE}px, ${SCALE}px -${SCALE}px, -${SCALE}px 0px`,
         pointerEvents: 'none',
     },
 };

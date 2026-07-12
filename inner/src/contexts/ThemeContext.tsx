@@ -2,6 +2,7 @@ import React, {
     createContext,
     useCallback,
     useContext,
+    useEffect,
     useState,
 } from 'react';
 
@@ -38,6 +39,10 @@ export const ThemeProvider: React.FC = ({ children }) => {
             // localStorage unavailable — keep in-memory.
         }
     }, []);
+
+    useEffect(() => {
+        document.documentElement.dataset.theme = theme;
+    }, [theme]);
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>

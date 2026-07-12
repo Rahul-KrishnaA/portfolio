@@ -83,7 +83,7 @@ const styles: StyleSheetCSS = {
         border: '2px solid #808080',
         padding: 16,
         minWidth: 200,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: 'var(--os-chrome-bg)',
         marginRight: 16,
         marginBottom: 16,
     },

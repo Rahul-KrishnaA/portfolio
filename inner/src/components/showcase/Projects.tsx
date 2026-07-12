@@ -148,7 +148,7 @@ const styles: StyleSheetCSS = {
         marginBottom: 4,
     },
     context: {
-        color: '#333',
+        color: 'var(--os-text-muted)',
     },
     links: {
         display: 'flex',
@@ -159,7 +159,7 @@ const styles: StyleSheetCSS = {
         marginLeft: 8,
     },
     domain: {
-        color: '#555',
+        color: 'var(--os-text-muted)',
         marginBottom: 8,
         fontSize: 13,
     },
@@ -168,7 +168,7 @@ const styles: StyleSheetCSS = {
         marginBottom: 12,
     },
     tag: {
-        backgroundColor: '#c0c0c0',
+        backgroundColor: 'var(--os-chrome-bg)',
         border: '1px solid #808080',
         padding: '1px 8px',
         fontSize: 12,

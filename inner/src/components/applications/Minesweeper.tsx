@@ -239,7 +239,7 @@ const styles: StyleSheetCSS = {
         flexDirection: 'column',
         alignItems: 'center',
         padding: 8,
-        backgroundColor: Colors.lightGray,
+        backgroundColor: 'var(--os-chrome-bg)',
         width: '100%',
         height: '100%',
         boxSizing: 'border-box',

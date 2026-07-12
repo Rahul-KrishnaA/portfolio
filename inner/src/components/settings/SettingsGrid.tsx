@@ -33,6 +33,7 @@ const SettingsGrid: React.FC<SettingsGridProps> = () => {
                     iconSize={iconPixelSize}
                     onSelect={() => setSelection(category.key)}
                     onOpen={() => navigateTo(category.key)}
+                    openOnSingleClick
                 />
             ))}
         </div>

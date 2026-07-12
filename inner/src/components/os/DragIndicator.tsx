@@ -1,5 +1,4 @@
 import React from 'react';
-import Colors from '../../constants/colors';
 
 const BORDER_WIDTH = 6;
 
@@ -58,7 +57,7 @@ export const styles: StyleSheetCSS = {
     hozDrag: {
         width: '100%',
         height: BORDER_WIDTH,
-        backgroundColor: Colors.white,
+        backgroundColor: 'var(--os-bg)',
         pointerEvents: 'none',
     },
     vertDragContainer: {
@@ -72,7 +71,7 @@ export const styles: StyleSheetCSS = {
     vertDrag: {
         width: BORDER_WIDTH,
         height: '100%',
-        backgroundColor: Colors.white,
+        backgroundColor: 'var(--os-bg)',
         pointerEvents: 'none',
     },
     checkerboard: {

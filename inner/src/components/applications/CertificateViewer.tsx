@@ -274,7 +274,7 @@ const styles: StyleSheetCSS = {
         minWidth: 0,
         minHeight: 0,
         overflow: 'auto',
-        backgroundColor: '#787878',
+        backgroundColor: 'var(--os-chrome-bg)',
         alignItems: 'center',
         flexDirection: 'column',
         padding: 16,

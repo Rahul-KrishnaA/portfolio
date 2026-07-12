@@ -144,7 +144,7 @@ const styles: StyleSheetCSS = {
     hint: {
         fontFamily: 'MSSerif',
         fontSize: 11,
-        color: Colors.darkGray,
+        color: 'var(--os-text-muted)',
         marginTop: 8,
     },
 };

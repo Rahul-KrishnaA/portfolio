@@ -11,6 +11,11 @@ export interface SettingsTileProps {
     iconSize: number;
     onSelect: () => void;
     onOpen: () => void;
+    // Control Panel category tiles (Display, Personalization, etc.) open on
+    // a single click, matching real Windows' Category-view Control Panel.
+    // Defaults to false so other reuses of this tile (e.g. My Computer's
+    // file/folder grid) keep the standard double-click-to-open convention.
+    openOnSingleClick?: boolean;
 }
 
 const SettingsTile: React.FC<SettingsTileProps> = ({
@@ -21,12 +26,18 @@ const SettingsTile: React.FC<SettingsTileProps> = ({
     iconSize,
     onSelect,
     onOpen,
+    openOnSingleClick,
 }) => {
     const [isHovering, setIsHovering] = useState(false);
     const [doubleClickTimerActive, setDoubleClickTimerActive] =
         useState(false);
 
     const handleMouseDown = useCallback(() => {
+        if (openOnSingleClick) {
+            onSelect();
+            onOpen();
+            return;
+        }
         if (doubleClickTimerActive) {
             setDoubleClickTimerActive(false);
             onOpen();
@@ -37,7 +48,7 @@ const SettingsTile: React.FC<SettingsTileProps> = ({
         setTimeout(() => {
             setDoubleClickTimerActive(false);
         }, 300);
-    }, [doubleClickTimerActive, onSelect, onOpen]);
+    }, [doubleClickTimerActive, onSelect, onOpen, openOnSingleClick]);
 
     return (
         <div

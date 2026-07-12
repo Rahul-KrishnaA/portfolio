@@ -30,6 +30,10 @@ import upIcon from './upIcon.png';
 import cutIcon from './cutIcon.png';
 import copyIcon from './copyIcon.png';
 import pasteIcon from './pasteIcon.png';
+import notepadIcon from './notepadIcon.png';
+import calculatorIcon from './calculatorIcon.png';
+import paintIcon from './paintIcon.png';
+import folderIcon from './folderIcon.png';
 
 const icons = {
     windowResize: windowResize,
@@ -62,6 +66,10 @@ const icons = {
     cutIcon: cutIcon,
     copyIcon: copyIcon,
     pasteIcon: pasteIcon,
+    notepadIcon: notepadIcon,
+    calculatorIcon: calculatorIcon,
+    paintIcon: paintIcon,
+    folderIcon: folderIcon,
 };
 
 export type IconName = keyof typeof icons;

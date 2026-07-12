@@ -397,7 +397,7 @@ const styles: StyleSheetCSS = {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: 'var(--os-bg)',
     },
     header: {
         flexShrink: 1,

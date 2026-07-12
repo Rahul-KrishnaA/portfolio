@@ -400,7 +400,7 @@ const styles: StyleSheetCSS = {
     container: {
         flexDirection: 'column',
         borderBottom: `1px solid ${Colors.darkGray}`,
-        backgroundColor: Colors.lightGray,
+        backgroundColor: 'var(--os-chrome-bg)',
     },
     menuBar: {
         flexDirection: 'row',
@@ -425,10 +425,10 @@ const styles: StyleSheetCSS = {
         left: 0,
         minWidth: 140,
         flexDirection: 'column',
-        border: `1px solid ${Colors.white}`,
+        border: `1px solid ${'var(--os-edge-white)'}`,
         borderBottomColor: Colors.black,
         borderRightColor: Colors.black,
-        backgroundColor: Colors.lightGray,
+        backgroundColor: 'var(--os-chrome-bg)',
         zIndex: 10,
         padding: 2,
     },
@@ -452,7 +452,7 @@ const styles: StyleSheetCSS = {
     menuDivider: {
         height: 2,
         borderTop: `1px solid ${Colors.darkGray}`,
-        borderBottom: `1px solid ${Colors.white}`,
+        borderBottom: `1px solid ${'var(--os-edge-white)'}`,
     },
     toolbar: {
         flexDirection: 'row',
@@ -479,14 +479,14 @@ const styles: StyleSheetCSS = {
         cursor: 'default',
     },
     toolbarButtonHover: {
-        border: `1px solid ${Colors.white}`,
+        border: `1px solid ${'var(--os-edge-white)'}`,
         borderBottomColor: Colors.black,
         borderRightColor: Colors.black,
     },
     toolbarButtonPressed: {
         border: `1px solid ${Colors.black}`,
-        borderBottomColor: Colors.white,
-        borderRightColor: Colors.white,
+        borderBottomColor: 'var(--os-edge-white)',
+        borderRightColor: 'var(--os-edge-white)',
     },
     toolbarButtonTop: {
         flexDirection: 'row',
@@ -512,7 +512,7 @@ const styles: StyleSheetCSS = {
         flexDirection: 'row',
         alignItems: 'center',
         padding: '2px 4px',
-        borderTop: `1px solid ${Colors.white}`,
+        borderTop: `1px solid ${'var(--os-edge-white)'}`,
     },
     addressLabel: {
         fontFamily: 'MSSerif',
@@ -527,7 +527,7 @@ const styles: StyleSheetCSS = {
         borderTopColor: Colors.black,
         borderLeftColor: Colors.black,
         borderRightWidth: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: 'var(--os-bg)',
         padding: '2px 4px',
     },
     addressIcon: {
@@ -540,10 +540,10 @@ const styles: StyleSheetCSS = {
     },
     addressDropdownButton: {
         width: 16,
-        border: `1px solid ${Colors.white}`,
+        border: `1px solid ${'var(--os-edge-white)'}`,
         borderBottomColor: Colors.black,
         borderRightColor: Colors.black,
-        backgroundColor: Colors.lightGray,
+        backgroundColor: 'var(--os-chrome-bg)',
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'pointer',
@@ -568,10 +568,10 @@ const styles: StyleSheetCSS = {
     aboutDialog: {
         flexDirection: 'column',
         width: 280,
-        border: `1px solid ${Colors.white}`,
+        border: `1px solid ${'var(--os-edge-white)'}`,
         borderBottomColor: Colors.black,
         borderRightColor: Colors.black,
-        backgroundColor: Colors.lightGray,
+        backgroundColor: 'var(--os-chrome-bg)',
         boxShadow: '2px 2px 6px rgba(0,0,0,0.5)',
     },
     aboutTitleBar: {
