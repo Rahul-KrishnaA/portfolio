@@ -5,6 +5,7 @@ import SettingsGrid from '../settings/SettingsGrid';
 import SettingsCategoryPlaceholder from '../settings/SettingsCategoryPlaceholder';
 import DisplaySettings from '../settings/DisplaySettings';
 import PersonalizationSettings from '../settings/PersonalizationSettings';
+import SoundsSettings from '../settings/SoundsSettings';
 import ExplorerChrome from '../settings/ExplorerChrome';
 import { ControlPanelProvider } from '../settings/ControlPanelContext';
 import { CATEGORIES } from '../settings/categories';
@@ -39,6 +40,10 @@ const Settings: React.FC<SettingsProps> = (props) => {
                                 <Route
                                     path="personalization"
                                     element={<PersonalizationSettings />}
+                                />
+                                <Route
+                                    path="sounds"
+                                    element={<SoundsSettings />}
                                 />
                                 <Route
                                     path=":category"

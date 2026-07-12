@@ -19,6 +19,18 @@ const ALL_LAUNCHABLE: (InstalledAppEntry | GameEntry)[] = [
     ...GAMES,
 ];
 
+// Shown while a lazy-loaded game's chunk (Doom/Oregon Trail/Scrabble, all
+// js-dos bundles) is still downloading, since those components render their
+// own `Window` chrome only once loaded — without this the window would be
+// blank for a moment instead of showing something.
+const GameLoadingFallback: React.FC = () => (
+    <div style={styles.gameLoadingOverlay}>
+        <div style={styles.gameLoadingBox}>
+            <p className="loading">Loading</p>
+        </div>
+    </div>
+);
+
 const findLaunchable = (
     key: string
 ): InstalledAppEntry | GameEntry | undefined =>
@@ -141,18 +153,20 @@ const Toolbar: React.FC<ToolbarProps> = ({
         key: string;
         name: string;
         icon: IconName;
-        component: React.FC<any>;
+        component: React.ComponentType<any>;
     }) => {
         openWindow(
             entry.key,
             entry.name,
             entry.icon,
-            <entry.component
-                onInteract={() => focusWindow(entry.key)}
-                onMinimize={() => minimizeWindow(entry.key)}
-                onClose={() => closeWindow(entry.key)}
-                key={entry.key}
-            />
+            <React.Suspense fallback={<GameLoadingFallback />}>
+                <entry.component
+                    onInteract={() => focusWindow(entry.key)}
+                    onMinimize={() => minimizeWindow(entry.key)}
+                    onClose={() => closeWindow(entry.key)}
+                    key={entry.key}
+                />
+            </React.Suspense>
         );
     };
 
@@ -472,6 +486,25 @@ const Toolbar: React.FC<ToolbarProps> = ({
 };
 
 const styles: StyleSheetCSS = {
+    gameLoadingOverlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 99999,
+        pointerEvents: 'none',
+    },
+    gameLoadingBox: {
+        background: 'var(--os-chrome-bg)',
+        border: `1px solid ${'var(--os-edge-white)'}`,
+        borderBottomColor: Colors.black,
+        borderRightColor: Colors.black,
+        padding: '16px 24px',
+    },
     toolbarOuter: {
         boxSizing: 'border-box',
         position: 'absolute',

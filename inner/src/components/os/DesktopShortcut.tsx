@@ -4,6 +4,7 @@ import colors from '../../constants/colors';
 import { Icon } from '../general';
 import { GridPosition } from '../../contexts/DesktopIconPositionsContext';
 import { usePinnedApps } from '../../contexts/PinnedAppsContext';
+import { useSound } from '../../contexts/SoundContext';
 import ContextMenu, { ContextMenuItem } from './ContextMenu';
 
 // Grid origin/cell size — matches `styles.shortcuts`'s former wrapper offset
@@ -46,6 +47,7 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
 }) => {
     const [isSelected, setIsSelected] = useState(false);
     const [shortcutId, setShortcutId] = useState('');
+    const { playSound } = useSound();
     const [lastSelected, setLastSelected] = useState(false);
     const containerRef = useRef<any>();
 
@@ -97,6 +99,7 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
 
     const handleClickShortcut = useCallback(() => {
         if (doubleClickTimerActive) {
+            playSound('click');
             onOpen && onOpen();
             setIsSelected(false);
             setDoubleClickTimerActive(false);
@@ -109,7 +112,7 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
         setTimeout(() => {
             setDoubleClickTimerActive(false);
         }, 300);
-    }, [doubleClickTimerActive, setIsSelected, onOpen]);
+    }, [doubleClickTimerActive, setIsSelected, onOpen, playSound]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
