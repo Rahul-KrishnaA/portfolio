@@ -244,6 +244,8 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
 
     const handleContextMenu = useCallback((event: React.MouseEvent) => {
         event.preventDefault();
+        setIsSelected(true);
+        setLastSelected(true);
         setContextMenu({ x: event.clientX, y: event.clientY });
     }, []);
 
