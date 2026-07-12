@@ -21,15 +21,13 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [resources] = useState<string[]>([]);
     const [mobileWarning, setMobileWarning] = useState(window.innerWidth < 768);
 
-    const onResize = () => {
-        if (window.innerWidth < 768) {
-            setMobileWarning(true);
-        } else {
-            setMobileWarning(false);
-        }
-    };
-
-    window.addEventListener('resize', onResize);
+    useEffect(() => {
+        const onResize = () => {
+            setMobileWarning(window.innerWidth < 768);
+        };
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -233,17 +231,56 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             <br />
                             <b>
                                 <p style={styles.warning}>
-                                    WARNING: This experience is best viewed on
+                                    This 3D experience is best viewed on
                                 </p>
                                 <p style={styles.warning}>
                                     a desktop or laptop computer.
                                 </p>
                             </b>
                             <br />
+                            <p>Here's the short version instead:</p>
+                            <div style={styles.mobileLinks}>
+                                <a
+                                    style={styles.link}
+                                    href="https://rahulportfolio-inner.vercel.app/resume/Rahul_Krishna_A_Resume.pdf"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    → Resume (PDF)
+                                </a>
+                                <a
+                                    style={styles.link}
+                                    href="https://github.com/Rahul-KrishnaA"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    → GitHub
+                                </a>
+                                <a
+                                    style={styles.link}
+                                    href="https://linkedin.com/in/rahulkrishna-a"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    → LinkedIn
+                                </a>
+                                <a
+                                    style={styles.link}
+                                    href="mailto:rahulkrishna1662004@gmail.com"
+                                >
+                                    → Email
+                                </a>
+                            </div>
+                            <br />
                         </>
                     )}
                     <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <p>Click start to begin{'\xa0'}</p>
+                        <p>
+                            {mobileWarning
+                                ? 'Or continue to the desktop experience anyway'
+                                : 'Click start to begin'}
+                            {'\xa0'}
+                        </p>
                         <span className="blinking-cursor" />
                     </div>
                     <div
@@ -361,6 +398,12 @@ const styles: StyleSheetCSS = {
         // textDecoration: 'none',
         color: '#4598ff',
         cursor: 'pointer',
+        textDecoration: 'underline',
+    },
+    mobileLinks: {
+        flexDirection: 'column',
+        paddingTop: 4,
+        paddingBottom: 4,
     },
     overlayText: {
         width: '100%',

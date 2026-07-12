@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Window from '../os/Window';
 import Colors from '../../constants/colors';
 import { IconName } from '../../assets/icons';
 import SettingsTile from '../settings/SettingsTile';
 import CertificateViewer from './CertificateViewer';
+import Notepad from './Notepad';
 import { useWindowManager } from '../../contexts/WindowManagerContext';
+import { useNotepadFiles, NotepadFile } from '../../contexts/NotepadFilesContext';
 import { CERTS } from '../showcase/Certifications';
 
 export interface MyComputerProps extends WindowAppProps {}
@@ -20,7 +22,8 @@ interface FileNode {
     name: string;
     icon: IconName;
     filePath: string;
-    fileType: 'pdf' | 'image';
+    fileType: 'pdf' | 'image' | 'text';
+    textContent?: string;
 }
 type FSNode = FolderNode | FileNode;
 
@@ -29,7 +32,7 @@ const getFileType = (filePath: string): 'pdf' | 'image' => {
     return ext === 'jpg' || ext === 'jpeg' || ext === 'png' ? 'image' : 'pdf';
 };
 
-const ROOT: FolderNode = {
+const buildRoot = (notepadFiles: NotepadFile[]): FolderNode => ({
     type: 'folder',
     name: 'My Computer',
     icon: 'computerBig',
@@ -51,6 +54,16 @@ const ROOT: FolderNode = {
                             filePath: '/resume/Rahul_Krishna_A_Resume.pdf',
                             fileType: 'pdf',
                         },
+                        ...notepadFiles.map(
+                            (file): FileNode => ({
+                                type: 'file',
+                                name: file.name,
+                                icon: 'notepadIcon',
+                                filePath: `notepad:${file.name}`,
+                                fileType: 'text',
+                                textContent: file.content,
+                            })
+                        ),
                         {
                             type: 'folder',
                             name: 'Certifications',
@@ -68,7 +81,7 @@ const ROOT: FolderNode = {
             ],
         },
     ],
-};
+});
 
 const TreeRow: React.FC<{
     node: FolderNode;
@@ -143,6 +156,8 @@ const findNode = (root: FolderNode, path: string[]): FolderNode => {
 const MyComputer: React.FC<MyComputerProps> = (props) => {
     const { windows, openWindow, focusWindow, closeWindow, minimizeWindow } =
         useWindowManager();
+    const { files: notepadFiles } = useNotepadFiles();
+    const ROOT = useMemo(() => buildRoot(notepadFiles), [notepadFiles]);
     const [selectedPath, setSelectedPath] = useState<string[]>([ROOT.name]);
     const [expanded, setExpanded] = useState<Set<string>>(
         new Set([ROOT.name])
@@ -167,6 +182,22 @@ const MyComputer: React.FC<MyComputerProps> = (props) => {
                 return;
             }
             const cascadeOffset = (Object.keys(windows).length % 5) * 44;
+            if (file.fileType === 'text') {
+                openWindow(
+                    file.filePath,
+                    file.name,
+                    'notepadIcon',
+                    <Notepad
+                        initialFileName={file.name}
+                        initialContent={file.textContent}
+                        onInteract={() => focusWindow(file.filePath)}
+                        onMinimize={() => minimizeWindow(file.filePath)}
+                        onClose={() => closeWindow(file.filePath)}
+                        key={file.filePath}
+                    />
+                );
+                return;
+            }
             openWindow(
                 file.filePath,
                 file.name,

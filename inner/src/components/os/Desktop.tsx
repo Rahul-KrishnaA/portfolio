@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ShutdownSequence from './ShutdownSequence';
+import BSOD from './BSOD';
 import Toolbar from './Toolbar';
 import DesktopShortcut from './DesktopShortcut';
 import { IconName } from '../../assets/icons';
@@ -22,6 +23,8 @@ import {
     PinnedAppsProvider,
     usePinnedApps,
 } from '../../contexts/PinnedAppsContext';
+import { NotepadFilesProvider } from '../../contexts/NotepadFilesContext';
+import { SoundProvider, useSound } from '../../contexts/SoundContext';
 
 export interface DesktopProps {}
 
@@ -41,9 +44,13 @@ const Desktop: React.FC<DesktopProps> = () => {
             <WallpaperProvider>
                 <DesktopIconPositionsProvider>
                     <PinnedAppsProvider>
-                        <WindowManagerProvider>
-                            <DesktopInner />
-                        </WindowManagerProvider>
+                        <NotepadFilesProvider>
+                            <SoundProvider>
+                                <WindowManagerProvider>
+                                    <DesktopInner />
+                                </WindowManagerProvider>
+                            </SoundProvider>
+                        </NotepadFilesProvider>
                     </PinnedAppsProvider>
                 </DesktopIconPositionsProvider>
             </WallpaperProvider>
@@ -64,10 +71,12 @@ const DesktopInner: React.FC = () => {
     const { desktopStyle } = useWallpaper();
     const { getPosition, setPosition, isOccupied } = useDesktopIconPositions();
     const { hiddenFromDesktop } = usePinnedApps();
+    const { playSound } = useSound();
 
     const [shortcuts, setShortcuts] = useState<ShortcutConfig[]>([]);
     const [shutdown, setShutdown] = useState(false);
     const [numShutdowns, setNumShutdowns] = useState(1);
+    const [bsod, setBsod] = useState(false);
 
     const rebootDesktop = useCallback(() => {
         resetWindows();
@@ -79,6 +88,54 @@ const DesktopInner: React.FC = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shutdown]);
+
+    useEffect(() => {
+        playSound('startup');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Hidden BSOD easter egg — classic Konami code. Ignored while typing in
+    // a text field so it can't misfire from ordinary Notepad/Contact-form use.
+    useEffect(() => {
+        const KONAMI = [
+            'ArrowUp',
+            'ArrowUp',
+            'ArrowDown',
+            'ArrowDown',
+            'ArrowLeft',
+            'ArrowRight',
+            'ArrowLeft',
+            'ArrowRight',
+            'b',
+            'a',
+        ];
+        let progress = 0;
+        const onKeyDown = (e: KeyboardEvent) => {
+            const target = e.target as HTMLElement | null;
+            if (
+                target &&
+                (target.tagName === 'INPUT' ||
+                    target.tagName === 'TEXTAREA' ||
+                    target.isContentEditable)
+            ) {
+                return;
+            }
+            const expected = KONAMI[progress];
+            const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+            if (key === expected) {
+                progress += 1;
+                if (progress === KONAMI.length) {
+                    progress = 0;
+                    setBsod(true);
+                    playSound('error');
+                }
+            } else {
+                progress = key === KONAMI[0] ? 1 : 0;
+            }
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [playSound]);
 
     useEffect(() => {
         const newShortcuts: ShortcutConfig[] = INSTALLED_APPS.map((app) => ({
@@ -117,84 +174,103 @@ const DesktopInner: React.FC = () => {
         }, 600);
     }, [numShutdowns]);
 
-    return !shutdown ? (
-        <div style={Object.assign({}, styles.desktop, desktopStyle)}>
-            {Object.keys(windows).map((key) => {
-                const element = windows[key].component;
-                if (!element) return <div key={`win-${key}`}></div>;
-                return (
-                    <div
-                        key={`win-${key}`}
-                        style={Object.assign(
-                            {},
-                            styles.windowWrapper,
-                            { zIndex: windows[key].zIndex },
-                            windows[key].minimized && styles.minimized
-                        )}
-                    >
-                        {React.cloneElement(element, {
-                            key,
-                            onInteract: () => focusWindow(key),
-                            onClose: () => closeWindow(key),
-                        })}
-                    </div>
-                );
-            })}
-            <div style={styles.shortcuts}>
-                {(() => {
-                    // Every shortcut's position resolved via `getPosition`
-                    // (defaults included) — required by the context's
-                    // `isOccupied` contract so a dragged icon can never
-                    // silently land on an icon that was never moved.
-                    const visibleShortcuts = shortcuts.filter(
-                        (shortcut) => !hiddenFromDesktop.has(shortcut.key)
-                    );
-                    const allResolvedPositions: ResolvedIconPosition[] =
-                        visibleShortcuts.map((shortcut, i) => ({
-                            key: shortcut.shortcutName,
-                            position: getPosition(shortcut.shortcutName, i),
-                        }));
-
-                    return visibleShortcuts.map((shortcut, i) => {
-                        const position = getPosition(shortcut.shortcutName, i);
+    return (
+        <>
+            {bsod && <BSOD onDismiss={() => setBsod(false)} />}
+            {!shutdown ? (
+                <div
+                    style={Object.assign({}, styles.desktop, desktopStyle)}
+                >
+                    {Object.keys(windows).map((key) => {
+                        const element = windows[key].component;
+                        if (!element)
+                            return <div key={`win-${key}`}></div>;
                         return (
-                            <DesktopShortcut
-                                key={shortcut.shortcutName}
-                                shortcutKey={shortcut.key}
-                                icon={shortcut.icon}
-                                shortcutName={shortcut.shortcutName}
-                                onOpen={shortcut.onOpen}
-                                position={position}
-                                onPositionChange={(pos) =>
-                                    setPosition(shortcut.shortcutName, pos)
-                                }
-                                isPositionAvailable={(pos) =>
-                                    !isOccupied(
-                                        pos,
-                                        shortcut.shortcutName,
-                                        allResolvedPositions
-                                    )
-                                }
-                            />
+                            <div
+                                key={`win-${key}`}
+                                style={Object.assign(
+                                    {},
+                                    styles.windowWrapper,
+                                    { zIndex: windows[key].zIndex },
+                                    windows[key].minimized && styles.minimized
+                                )}
+                            >
+                                {React.cloneElement(element, {
+                                    key,
+                                    onInteract: () => focusWindow(key),
+                                    onClose: () => closeWindow(key),
+                                })}
+                            </div>
                         );
-                    });
-                })()}
-            </div>
-            <Toolbar
-                windows={windows}
-                toggleMinimize={toggleMinimize}
-                shutdown={startShutdown}
-                openWindow={openWindow}
-                focusWindow={focusWindow}
-                closeWindow={closeWindow}
-                minimizeWindow={minimizeWindow}
-            />
-        </div>
-    ) : (
-        <ShutdownSequence
-            setShutdown={setShutdown}
-            numShutdowns={numShutdowns}
-        />
+                    })}
+                    <div style={styles.shortcuts}>
+                        {(() => {
+                            // Every shortcut's position resolved via
+                            // `getPosition` (defaults included) — required
+                            // by the context's `isOccupied` contract so a
+                            // dragged icon can never silently land on an
+                            // icon that was never moved.
+                            const visibleShortcuts = shortcuts.filter(
+                                (shortcut) =>
+                                    !hiddenFromDesktop.has(shortcut.key)
+                            );
+                            const allResolvedPositions: ResolvedIconPosition[] =
+                                visibleShortcuts.map((shortcut, i) => ({
+                                    key: shortcut.shortcutName,
+                                    position: getPosition(
+                                        shortcut.shortcutName,
+                                        i
+                                    ),
+                                }));
+
+                            return visibleShortcuts.map((shortcut, i) => {
+                                const position = getPosition(
+                                    shortcut.shortcutName,
+                                    i
+                                );
+                                return (
+                                    <DesktopShortcut
+                                        key={shortcut.shortcutName}
+                                        shortcutKey={shortcut.key}
+                                        icon={shortcut.icon}
+                                        shortcutName={shortcut.shortcutName}
+                                        onOpen={shortcut.onOpen}
+                                        position={position}
+                                        onPositionChange={(pos) =>
+                                            setPosition(
+                                                shortcut.shortcutName,
+                                                pos
+                                            )
+                                        }
+                                        isPositionAvailable={(pos) =>
+                                            !isOccupied(
+                                                pos,
+                                                shortcut.shortcutName,
+                                                allResolvedPositions
+                                            )
+                                        }
+                                    />
+                                );
+                            });
+                        })()}
+                    </div>
+                    <Toolbar
+                        windows={windows}
+                        toggleMinimize={toggleMinimize}
+                        shutdown={startShutdown}
+                        openWindow={openWindow}
+                        focusWindow={focusWindow}
+                        closeWindow={closeWindow}
+                        minimizeWindow={minimizeWindow}
+                    />
+                </div>
+            ) : (
+                <ShutdownSequence
+                    setShutdown={setShutdown}
+                    numShutdowns={numShutdowns}
+                />
+            )}
+        </>
     );
 };
 

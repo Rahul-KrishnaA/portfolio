@@ -1,15 +1,29 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Window from '../os/Window';
 import Colors from '../../constants/colors';
+import { useNotepadFiles } from '../../contexts/NotepadFilesContext';
 
-export interface NotepadProps extends WindowAppProps {}
+export interface NotepadProps extends WindowAppProps {
+    initialFileName?: string;
+    initialContent?: string;
+}
 
 const DEFAULT_FILENAME = 'Untitled.txt';
 
 const Notepad: React.FC<NotepadProps> = (props) => {
-    const [text, setText] = useState('');
-    const [fileName, setFileName] = useState(DEFAULT_FILENAME);
+    const { files, saveFile, getFile } = useNotepadFiles();
+    const [text, setText] = useState(props.initialContent ?? '');
+    const [fileName, setFileName] = useState(
+        props.initialFileName ?? DEFAULT_FILENAME
+    );
+    const [savedMessage, setSavedMessage] = useState('');
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const savedMessageTimeout = useRef<any>();
+
+    useEffect(
+        () => () => clearTimeout(savedMessageTimeout.current),
+        []
+    );
 
     const handleNew = useCallback(() => {
         setText('');
@@ -18,14 +32,27 @@ const Notepad: React.FC<NotepadProps> = (props) => {
     }, []);
 
     const handleSave = useCallback(() => {
-        const blob = new Blob([text], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName || DEFAULT_FILENAME;
-        a.click();
-        URL.revokeObjectURL(url);
-    }, [text, fileName]);
+        const name = fileName || DEFAULT_FILENAME;
+        saveFile(name, text);
+        setFileName(name);
+        setSavedMessage('Saved to My Computer ▸ My Documents');
+        clearTimeout(savedMessageTimeout.current);
+        savedMessageTimeout.current = setTimeout(
+            () => setSavedMessage(''),
+            2000
+        );
+    }, [text, fileName, saveFile]);
+
+    const handleOpen = useCallback(
+        (name: string) => {
+            const file = getFile(name);
+            if (!file) return;
+            setFileName(file.name);
+            setText(file.content);
+            textAreaRef.current?.focus();
+        },
+        [getFile]
+    );
 
     return (
         <Window
@@ -55,12 +82,34 @@ const Notepad: React.FC<NotepadProps> = (props) => {
                     >
                         Save
                     </button>
+                    {files.length > 0 && (
+                        <select
+                            style={styles.openSelect}
+                            value=""
+                            onChange={(e) => {
+                                if (e.target.value) handleOpen(e.target.value);
+                                e.target.value = '';
+                            }}
+                        >
+                            <option value="" disabled>
+                                Open...
+                            </option>
+                            {files.map((file) => (
+                                <option key={file.name} value={file.name}>
+                                    {file.name}
+                                </option>
+                            ))}
+                        </select>
+                    )}
                     <input
                         style={styles.filenameInput}
                         value={fileName}
                         onChange={(e) => setFileName(e.target.value)}
                         spellCheck={false}
                     />
+                    {savedMessage && (
+                        <p style={styles.savedMessage}>{savedMessage}</p>
+                    )}
                 </div>
                 <textarea
                     ref={textAreaRef}
@@ -105,6 +154,23 @@ const styles: StyleSheetCSS = {
         fontFamily: 'MSSerif',
         fontSize: 12,
         width: 160,
+    },
+    openSelect: {
+        border: `1px solid ${Colors.darkGray}`,
+        borderTopColor: Colors.black,
+        borderLeftColor: Colors.black,
+        padding: '3px 6px',
+        fontFamily: 'MSSerif',
+        fontSize: 12,
+        marginRight: 6,
+        maxWidth: 120,
+    },
+    savedMessage: {
+        marginLeft: 8,
+        fontFamily: 'MSSerif',
+        fontSize: 11,
+        color: 'var(--os-text-muted)',
+        whiteSpace: 'nowrap',
     },
     textArea: {
         flex: 1,

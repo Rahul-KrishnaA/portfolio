@@ -1,16 +1,20 @@
 import React from 'react';
 import { IconName } from '../../assets/icons';
 import Minesweeper from '../applications/Minesweeper';
-import Doom from '../applications/Doom';
-import OregonTrail from '../applications/OregonTrail';
-import Scrabble from '../applications/Scrabble';
 import Wordle from '../applications/Wordle';
+
+// These three wrap a js-dos bundle (DosPlayer) and are the heaviest
+// components in the app — lazy-load them so the initial bundle/paint
+// isn't paying for DOS emulator code that most visitors never launch.
+const Doom = React.lazy(() => import('../applications/Doom'));
+const OregonTrail = React.lazy(() => import('../applications/OregonTrail'));
+const Scrabble = React.lazy(() => import('../applications/Scrabble'));
 
 export interface GameEntry {
     key: string;
     name: string;
     icon: IconName;
-    component: React.FC<any>;
+    component: React.ComponentType<any>;
 }
 
 export const GAMES: GameEntry[] = [
