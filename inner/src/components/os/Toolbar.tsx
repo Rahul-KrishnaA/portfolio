@@ -200,7 +200,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         },
         {
             label: hiddenFromDesktop.has(app.key)
-                ? 'Restore to Desktop'
+                ? 'Create Desktop Shortcut'
                 : 'Remove from Desktop',
             onSelect: () =>
                 hiddenFromDesktop.has(app.key)
