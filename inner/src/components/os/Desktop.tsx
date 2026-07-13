@@ -24,7 +24,6 @@ import {
     usePinnedApps,
 } from '../../contexts/PinnedAppsContext';
 import { NotepadFilesProvider } from '../../contexts/NotepadFilesContext';
-import { SoundProvider, useSound } from '../../contexts/SoundContext';
 
 export interface DesktopProps {}
 
@@ -45,11 +44,9 @@ const Desktop: React.FC<DesktopProps> = () => {
                 <DesktopIconPositionsProvider>
                     <PinnedAppsProvider>
                         <NotepadFilesProvider>
-                            <SoundProvider>
-                                <WindowManagerProvider>
-                                    <DesktopInner />
-                                </WindowManagerProvider>
-                            </SoundProvider>
+                            <WindowManagerProvider>
+                                <DesktopInner />
+                            </WindowManagerProvider>
                         </NotepadFilesProvider>
                     </PinnedAppsProvider>
                 </DesktopIconPositionsProvider>
@@ -71,7 +68,6 @@ const DesktopInner: React.FC = () => {
     const { desktopStyle } = useWallpaper();
     const { getPosition, setPosition, isOccupied } = useDesktopIconPositions();
     const { hiddenFromDesktop } = usePinnedApps();
-    const { playSound } = useSound();
 
     const [shortcuts, setShortcuts] = useState<ShortcutConfig[]>([]);
     const [shutdown, setShutdown] = useState(false);
@@ -88,11 +84,6 @@ const DesktopInner: React.FC = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shutdown]);
-
-    useEffect(() => {
-        playSound('startup');
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     // Hidden BSOD easter egg — classic Konami code. Ignored while typing in
     // a text field so it can't misfire from ordinary Notepad/Contact-form use.
@@ -127,7 +118,6 @@ const DesktopInner: React.FC = () => {
                 if (progress === KONAMI.length) {
                     progress = 0;
                     setBsod(true);
-                    playSound('error');
                 }
             } else {
                 progress = key === KONAMI[0] ? 1 : 0;
@@ -135,7 +125,7 @@ const DesktopInner: React.FC = () => {
         };
         window.addEventListener('keydown', onKeyDown);
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [playSound]);
+    }, []);
 
     useEffect(() => {
         const newShortcuts: ShortcutConfig[] = INSTALLED_APPS.map((app) => ({

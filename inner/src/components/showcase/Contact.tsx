@@ -3,7 +3,6 @@ import colors from '../../constants/colors';
 import ghIcon from '../../assets/pictures/contact-gh.png';
 import inIcon from '../../assets/pictures/contact-in.png';
 import ResumeDownload from './ResumeDownload';
-import { useSound } from '../../contexts/SoundContext';
 
 export interface ContactProps {}
 
@@ -38,7 +37,6 @@ const Contact: React.FC<ContactProps> = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [formMessage, setFormMessage] = useState('');
     const [formMessageColor, setFormMessageColor] = useState('');
-    const { playSound } = useSound();
 
     useEffect(() => {
         if (validateEmail(email) && name.length > 0 && message.length > 0) {
@@ -52,7 +50,6 @@ const Contact: React.FC<ContactProps> = (props) => {
         if (!isFormValid) {
             setFormMessage('Form unable to validate, please try again.');
             setFormMessageColor('red');
-            playSound('error');
             return;
         }
         try {
@@ -87,7 +84,6 @@ const Contact: React.FC<ContactProps> = (props) => {
                 );
                 setFormMessageColor(colors.red);
                 setIsLoading(false);
-                playSound('error');
             }
         } catch (e) {
             setFormMessage(
@@ -95,7 +91,6 @@ const Contact: React.FC<ContactProps> = (props) => {
             );
             setFormMessageColor(colors.red);
             setIsLoading(false);
-            playSound('error');
         }
     }
 

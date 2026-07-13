@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { IconName } from '../../assets/icons';
 import Colors from '../../constants/colors';
 import { Icon } from '../general';
-import { useSound } from '../../contexts/SoundContext';
 
 export interface ButtonProps {
     icon?: IconName;
@@ -12,7 +11,6 @@ export interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ icon, text, onClick }) => {
     const [isHovering, setIsHovering] = useState(false);
-    const { playSound } = useSound();
 
     const handleMouseEnter = () => {
         setIsHovering(true);
@@ -38,7 +36,6 @@ const Button: React.FC<ButtonProps> = ({ icon, text, onClick }) => {
     const click = (e: any) => {
         e.preventDefault();
         e.stopPropagation();
-        playSound('click');
         onClick && onClick();
     };
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '../general';
 import { IconName } from '../../assets/icons';
 import colors from '../../constants/colors';
@@ -31,6 +31,12 @@ const SettingsTile: React.FC<SettingsTileProps> = ({
     const [isHovering, setIsHovering] = useState(false);
     const [doubleClickTimerActive, setDoubleClickTimerActive] =
         useState(false);
+    // Opening a folder/category replaces this tile's whole grid, so the
+    // 300ms double-click timeout routinely outlives the component — clear
+    // it on unmount or it fires setState on an unmounted component.
+    const doubleClickTimeout = useRef<any>();
+
+    useEffect(() => () => clearTimeout(doubleClickTimeout.current), []);
 
     const handleMouseDown = useCallback(() => {
         if (openOnSingleClick) {
@@ -45,7 +51,8 @@ const SettingsTile: React.FC<SettingsTileProps> = ({
         }
         onSelect();
         setDoubleClickTimerActive(true);
-        setTimeout(() => {
+        clearTimeout(doubleClickTimeout.current);
+        doubleClickTimeout.current = setTimeout(() => {
             setDoubleClickTimerActive(false);
         }, 300);
     }, [doubleClickTimerActive, onSelect, onOpen, openOnSingleClick]);
